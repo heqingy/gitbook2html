@@ -2,11 +2,15 @@ const path = require('path')
 
 module.exports = {
     mode: 'development',
-    entry: "./index.tsx",
-    // output: {
-    //     path: path.resolve(__dirname, "dist"),
-    //     filename: "bundle.js"
-    // },
+    entry: {
+        './index': "./index.tsx",
+        './index2': "./index2.tsx",
+        './a/b/index3':'./a/b/index3.tsx'
+    },
+    output: {
+        path: path.resolve(__dirname, "."),
+        filename: "[name].js"
+    },
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
     },
@@ -22,5 +26,4 @@ module.exports = {
     devServer: {
         contentBase: path.resolve(__dirname, "dist"),
     },
-    devtool: "source-map",
 }
