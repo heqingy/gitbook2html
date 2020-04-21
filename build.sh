@@ -1,4 +1,12 @@
 set -e
-pushd "./components" > /dev/null
-exec npx webpack
+pushd "./parse" > /dev/null
+go run main.go
 popd > /dev/null
+rm -rf ./components/source/*
+mv ./dist/* ./components/source
+pushd "./components" > /dev/null
+node build/build.js
+npx webpack
+node build/clearTsx.js
+popd > /dev/null
+mv ./components/source/* ./dist

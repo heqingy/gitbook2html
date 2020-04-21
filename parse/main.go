@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
-	"gitbook/parse/formatter"
+	"gitbook/parse/h"
+	"gitbook/parse/utils"
 	"gitbook/parse/zip"
 	"io/ioutil"
 	"log"
 	"os"
-	"path"
 	"path/filepath"
-	"strings"
 )
 
 var pwd, _ = os.Getwd()
@@ -22,7 +21,7 @@ func main() {
 
 	for i := range fileinfoList {
 		upzipSourceFiles(fileinfoList[i].Name())
-		getProjectVersionList(getOnlyName(fileinfoList[i].Name()))
+		getProjectVersionList(utils.GetOnlyName(fileinfoList[i].Name()))
 	}
 }
 
@@ -38,7 +37,7 @@ func getAllZipFile() []os.FileInfo {
 // 解压待处理文件
 func upzipSourceFiles(fileName string) {
 	zipFilePath := zipPath + fileName
-	upzipFilePath := sourcePath + getOnlyName(fileName)
+	upzipFilePath := sourcePath + utils.GetOnlyName(fileName)
 	zip.Unzip(zipFilePath, upzipFilePath)
 }
 
@@ -74,13 +73,28 @@ func formatTargetVersion(versionPath string, targetDir string) []os.FileInfo {
 
 // 解析json,并在指定目录生成对应的.html/.tsx
 func parseJSON(jsonPath string, targetPath string) {
-	fmt.Println(formatter.Parser(jsonPath))
+	onlyFileName := utils.GetOnlyName(jsonPath)
+
+	makeHtmlStatus := utils.WhriteFile(targetPath+"/"+onlyFileName+".html", makeHTML(jsonPath))
+	makeTsxStatus := utils.WhriteFile(targetPath+"/"+onlyFileName+".tsx", makeTSX(jsonPath))
+	if makeHtmlStatus {
+		fmt.Println(onlyFileName, "html创建成功")
+	} else {
+		fmt.Println(onlyFileName, "html创建失败")
+	}
+	if makeTsxStatus {
+		fmt.Println(onlyFileName, "tsx创建成功")
+	} else {
+		fmt.Println(onlyFileName, "tsx创建失败")
+	}
 }
 
-func getOnlyName(fileName string) string {
-	fullFilename := fileName
-	filenameWithSuffix := path.Base(fullFilename)
-	fileSuffix := path.Ext(filenameWithSuffix)
-	filenameOnly := strings.TrimSuffix(filenameWithSuffix, fileSuffix)
-	return filenameOnly
+func makeHTML(jsonPath string) string {
+	return h.RenderHtmlTemplate(`"./` + utils.GetOnlyName(jsonPath) + `.js"`)
+}
+
+func makeTSX(jsonPath string) string {
+	// htmlDom := formatter.Parser(jsonPath)
+	// htmlDom
+	return h.RenderTsxTemplate(`<Link>111</Link>`)
 }

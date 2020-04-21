@@ -1,12 +1,9 @@
 const path = require('path')
+const entry = require('./build/entry')
 
 module.exports = {
     mode: 'development',
-    entry: {
-        './index': "./index.tsx",
-        './index2': "./index2.tsx",
-        './a/b/index3':'./a/b/index3.tsx'
-    },
+    entry,
     output: {
         path: path.resolve(__dirname, "."),
         filename: "[name].js"
@@ -23,7 +20,9 @@ module.exports = {
             }
         ]
     },
-    devServer: {
-        contentBase: path.resolve(__dirname, "dist"),
-    },
+    resolve: {
+        alias: {
+            '@parts': path.resolve(__dirname, 'parts')
+        }
+    }
 }
