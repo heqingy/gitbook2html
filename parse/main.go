@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"gitbook/parse/formatter"
 	"gitbook/parse/h"
 	"gitbook/parse/utils"
 	"gitbook/parse/zip"
@@ -94,7 +95,6 @@ func makeHTML(jsonPath string) string {
 }
 
 func makeTSX(jsonPath string) string {
-	// htmlDom := formatter.Parser(jsonPath)
-	// htmlDom
-	return h.RenderTsxTemplate(`<Link>111</Link>`)
+	htmlDom := formatter.Parser(jsonPath)
+	return h.RenderTsxTemplate(htmlDom)
 }
