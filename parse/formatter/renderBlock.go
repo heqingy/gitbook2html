@@ -6,9 +6,9 @@ import (
 
 //RenderBlock renderBlock
 func RenderBlock(n *NodeTree, child string) string {
-	attr := [1]h.Attr{{
+	attr := [1]h.AttrStringStruct{{
 		Key:   "type",
 		Value: n.Type,
 	}}
-	return h.H("Block", child, attr)
+	return h.H("Block", child, h.AttrString(attr))
 }

@@ -1,6 +1,7 @@
 package h
 
-func RenderHtmlTemplate(bundlePath string) string {
+// RenderHTMLTemplate html模板
+func RenderHTMLTemplate(bundlePath string) string {
 	return `
 	<!DOCTYPE html>
 	<html lang="en">
@@ -20,13 +21,17 @@ func RenderHtmlTemplate(bundlePath string) string {
 	`
 }
 
+// RenderTsxTemplate tsx模板
 func RenderTsxTemplate(dom string) string {
 	return `
 	import * as React from 'react'
 	import * as ReactDom from 'react-dom'
 
 	// MarkDown render parts
-	import { Link } from '@parts/link.tsx';
+	import { Document } from '@parts/Document.tsx';
+	import { Block } from '@parts/Block.tsx';
+	import { Text } from '@parts/Text.tsx';
+	import { Inline } from '@parts/Inline.tsx';
 
 	const SOURCE_ELEMENT = ` + dom + `
 

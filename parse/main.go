@@ -91,7 +91,7 @@ func parseJSON(jsonPath string, targetPath string) {
 }
 
 func makeHTML(jsonPath string) string {
-	return h.RenderHtmlTemplate(`"./` + utils.GetOnlyName(jsonPath) + `.js"`)
+	return h.RenderHTMLTemplate(`"./` + utils.GetOnlyName(jsonPath) + `.js"`)
 }
 
 func makeTSX(jsonPath string) string {

@@ -19,14 +19,19 @@ type Ranges struct {
 	Marks []Marks `json:"marks"`
 }
 
+// Data 节点data
+type Data struct {
+	Href string `json:"href"`
+}
+
 // NodeTree 节点树结构
 type NodeTree struct {
-	Kind   string      `json:"kind"`
-	Type   string      `json:"type"`
-	Key    string      `json:"key"`
-	Data   interface{} `json:"data"`
-	Nodes  []NodeTree  `json:"nodes"`
-	Ranges []Ranges    `json:"ranges"`
+	Kind   string     `json:"kind"`
+	Type   string     `json:"type"`
+	Key    string     `json:"key"`
+	Data   Data       `json:"data"`
+	Nodes  []NodeTree `json:"nodes"`
+	Ranges []Ranges   `json:"ranges"`
 }
 
 // JSONInfo 源JSON结构
