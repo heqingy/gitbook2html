@@ -1,3 +1,3 @@
 
-        module.exports = {"./source/prj1/versions/master/master(另一个复件)":"./source/prj1/versions/master/master(另一个复件).tsx","./source/prj1/versions/master/master(复件)":"./source/prj1/versions/master/master(复件).tsx","./source/prj1/versions/master/master":"./source/prj1/versions/master/master.tsx"}
+        module.exports = {"./source/all-type-element/versions/master/master":"./source/all-type-element/versions/master/master.tsx","./source/all-type-element/versions/master/link-page":"./source/all-type-element/versions/master/link-page.tsx"}
     
