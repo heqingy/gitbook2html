@@ -29,7 +29,7 @@ func RenderTsxTemplate(dom string) string {
 
 	// MarkDown render parts
 	import { Document } from '@parts/Document.tsx';
-	import { Block } from '@parts/Block.tsx';
+	import { Block } from '@parts/block/index.tsx';
 	import { Text } from '@parts/Text.tsx';
 	import { Inline } from '@parts/Inline.tsx';
 

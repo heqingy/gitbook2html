@@ -6,7 +6,7 @@ rm -rf ./components/source/*
 mv ./dist/* ./components/source
 pushd "./components" > /dev/null
 node build/build.js
-npx webpack
+yarn build
 node build/clearTsx.js
 popd > /dev/null
 mv ./components/source/* ./dist

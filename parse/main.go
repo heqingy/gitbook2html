@@ -21,8 +21,12 @@ func main() {
 	fileinfoList := getAllZipFile()
 
 	for i := range fileinfoList {
-		upzipSourceFiles(fileinfoList[i].Name())
-		getProjectVersionList(utils.GetOnlyName(fileinfoList[i].Name()))
+		fileName := fileinfoList[i].Name()
+		if fileName == ".DS_Store" {
+			continue
+		}
+		upzipSourceFiles(fileName)
+		getProjectVersionList(utils.GetOnlyName(fileName))
 	}
 }
 
@@ -46,13 +50,28 @@ func upzipSourceFiles(fileName string) {
 func getProjectVersionList(project string) []os.FileInfo {
 	versionPath := sourcePath + project + "/versions"
 	targetVersionPath := distPath + project + "/versions"
+
+	reversionPath := sourcePath + project + "/revision.json"
+	targetReversionPath := distPath + project + "/revision.json"
+
+	assetsPath := sourcePath + project + "/assets"
+	targetAssetsPath := distPath + project + "/assets"
+
 	fileinfoList, err := ioutil.ReadDir(versionPath)
+	utils.CopyPath(assetsPath, targetAssetsPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	for i := range fileinfoList {
 		versionName := fileinfoList[i].Name()
+		makeVersionStatus := utils.WhriteFile(targetReversionPath, reversionPath)
+
+		if makeVersionStatus {
+			fmt.Println(project, "reversion创建成功")
+		} else {
+			fmt.Println(project, "reversion创建失败")
+		}
+
 		formatTargetVersion(versionPath+"/"+versionName, targetVersionPath+"/"+versionName)
 	}
 
@@ -62,6 +81,7 @@ func getProjectVersionList(project string) []os.FileInfo {
 // 获得指定版本内的json文件
 func formatTargetVersion(versionPath string, targetDir string) []os.FileInfo {
 	fileinfoList, err := ioutil.ReadDir(versionPath)
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -88,6 +108,7 @@ func parseJSON(jsonPath string, targetPath string) {
 	} else {
 		fmt.Println(onlyFileName, "tsx创建失败")
 	}
+
 }
 
 func makeHTML(jsonPath string) string {

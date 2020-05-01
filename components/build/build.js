@@ -3,6 +3,7 @@ const path = require('path')
 
 const sourcePath = path.join(__dirname, '../source')
 const buildPath = path.join(__dirname, '../build')
+const asssetsPath = path.join(__dirname, '../../dist')
 const tsxFilePath = []
 
 function getAllTsxFile(dirPath, callback) {
@@ -29,7 +30,6 @@ function getAllTsxFile(dirPath, callback) {
         //为空时直接回调
         files.length === 0 && callback()
     })
-
 }
 
 function makeEntry(tsxFilePath) {
@@ -43,4 +43,21 @@ function makeEntry(tsxFilePath) {
     `);
 }
 
-getAllTsxFile(sourcePath, () => makeEntry(tsxFilePath))
+function makeAssetsPath() {
+    const pathJson = {};
+    (fs.readdirSync(sourcePath) || []).map(f => {
+        (fs.readdirSync(`${sourcePath}/${f}/assets`) || []).map(i => {
+            pathJson[i] = `/${f}/assets/${i}`
+        })
+        
+    })
+
+    fs.writeFileSync(`${buildPath}/assets.js`, `
+        module.exports = ${JSON.stringify(pathJson)}
+    `);
+}
+
+getAllTsxFile(sourcePath, () => {
+    makeEntry(tsxFilePath)
+    makeAssetsPath()
+})

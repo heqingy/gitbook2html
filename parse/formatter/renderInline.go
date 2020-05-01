@@ -12,11 +12,6 @@ func RenderInline(n *NodeTree, child string) string {
 	}}
 	text := ""
 
-	// kk, _ := json.Marshal(n.Data)
-	// var str bytes.Buffer
-	// _ = json.Indent(&str, []byte(kk), "", "    ")
-	// fmt.Println("formated: ", str.String())
-
 	if (n.Data != Data{}) {
 		attr := [1]h.AttrInterfaceStruct{{
 			Key:   "data",

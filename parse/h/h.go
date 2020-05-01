@@ -36,6 +36,9 @@ func AttrInterface(attr [1]AttrInterfaceStruct) string {
 	if len(attr) > 0 {
 		for i := range attr {
 			atr, _ := json.Marshal(attr[i].Value)
+			if string(atr) == "{}" {
+				continue
+			}
 			a += attr[i].Key + `={` + string(atr) + `} `
 		}
 	}

@@ -1,9 +1,10 @@
 const path = require('path')
 const entry = require('./build/entry')
+const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 const webpack = require('webpack')
-
+console.log(__dirname, '=')
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     entry,
     output: {
         path: path.resolve(__dirname, "."),
@@ -13,10 +14,17 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [
+        new OpenBrowserPlugin({ url: "http://localhost:8080/test/index.html" }),
         new webpack.DefinePlugin({
-            STATIC_PATH: JSON.stringify(path.resolve(__dirname, '../dist'))
+            STATIC_PATH: "''"
         })
     ],
+    devServer: {
+        contentBase: [
+            __dirname,
+            path.resolve(__dirname, '../dist'),
+        ],
+    },
     module: {
         rules: [
             {
@@ -27,7 +35,7 @@ module.exports = {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
             },
-        ]
+        ],
     },
     resolve: {
         alias: {

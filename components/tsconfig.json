@@ -4,12 +4,20 @@
         "module": "commonjs",
         "strict": true,
         "jsx": "react",
-        "allowJs": true,
         "baseUrl": "./",
         "paths": {
             "@parts/*": [
                 "parts/*"
-            ]
+            ],
+            "@lib/*": [
+                "lib/*"
+            ],
+            "@build/*": [
+                "build/*"
+            ],
         },
-    }
+    },
+    "exclude": [
+        "node_modules"
+    ]
 }

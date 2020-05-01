@@ -107,36 +107,55 @@
         </Block>
     </Block>
     <Block type="list-unordered">
-        <Block type="list-item">
-            <Block type="paragraph"><Text>task list </Text></Block>
+        <Block type="list-item" data={{"checked":false}}>
+            <Block type="paragraph"><Text>task list</Text></Block>
         </Block>
-        <Block type="list-item">
+        <Block type="list-item" data={{"checked":false}}>
             <Block type="paragraph"><Text>task list</Text></Block>
             <Block type="list-unordered">
-                <Block type="list-item">
-                    <Block type="paragraph"><Text>task list (checked)</Text></Block>
+                <Block type="list-item" data={{"checked":false}}>
+                    <Block type="paragraph"><Text>task list</Text></Block>
                     <Block type="list-unordered">
-                        <Block type="list-item">
+                        <Block type="list-item" data={{"checked":false}}>
                             <Block type="paragraph"><Text>task list</Text></Block>
                             <Block type="list-unordered">
-                                <Block type="list-item">
-                                    <Block type="paragraph"><Text>task list (checked)</Text></Block>
+                                <Block type="list-item" data={{"checked":false}}>
+                                    <Block type="paragraph"><Text>task list</Text></Block>
                                 </Block>
                             </Block>
                         </Block>
-                        <Block type="list-item">
-                            <Block type="paragraph"><Text>task list (checked)</Text></Block>
+                        <Block type="list-item" data={{"checked":false}}>
+                            <Block type="paragraph"><Text>task list</Text></Block>
+                        </Block>
+                        <Block type="list-item" data={{"checked":false}}>
+                            <Block type="paragraph"><Text>task list</Text></Block>
                         </Block>
                     </Block>
                 </Block>
             </Block>
         </Block>
-        <Block type="list-item">
-            <Block type="paragraph"><Text>task list</Text></Block>
+        <Block type="list-item" data={{"checked":true}}>
+            <Block type="paragraph"><Text>task list (checked)</Text></Block>
+            <Block type="list-unordered">
+                <Block type="list-item" data={{"checked":false}}>
+                    <Block type="paragraph"><Text>task list</Text></Block>
+                    <Block type="list-unordered">
+                        <Block type="list-item" data={{"checked":true}}>
+                            <Block type="paragraph"><Text>task list (checked)</Text></Block>
+                        </Block>
+                    </Block>
+                </Block>
+                <Block type="list-item" data={{"checked":true}}>
+                    <Block type="paragraph"><Text>task list (checked)</Text></Block>
+                </Block>
+            </Block>
         </Block>
     </Block>
     <Block type="code">
         <Block type="code-line"><Text>code block (支持多语言)</Text></Block>
+        <Block type="code-line"><Text>111</Text></Block>
+        <Block type="code-line"><Text>111</Text></Block>
+        <Block type="code-line"><Text>11</Text></Block>
     </Block>
     <Block type="blockquote">
         <Block type="paragraph"><Text>Quote 1</Text></Block>
@@ -165,8 +184,8 @@
             </Block>
         </Block>
     </Block>
-    <Block type="image"><Text></Text></Block>
-    <Block type="table">
+    <Block type="image" data={{"assetID":"-M5Q9B2crYznyX5yghuy","caption":"炸心管"}}><Text></Text></Block>
+    <Block type="table" data={{"aligns":["right","left","center","left"]}}>
         <Block type="table-row">
             <Block type="table-cell">
                 <Block type="paragraph"><Text>column 1</Text></Block>
@@ -232,19 +251,19 @@
             </Block>
         </Block>
     </Block>
-    <Block type="hint">
+    <Block type="hint" data={{"style":"warning"}}>
         <Block type="heading-1"><Text>hint warning</Text></Block>
     </Block>
-    <Block type="hint">
+    <Block type="hint" data={{"style":"danger"}}>
         <Block type="paragraph"><Text>hint danger</Text></Block>
     </Block>
-    <Block type="hint">
+    <Block type="hint" data={{"style":"info"}}>
         <Block type="paragraph"><Text>hint info</Text></Block>
     </Block>
-    <Block type="hint">
+    <Block type="hint" data={{"style":"success"}}>
         <Block type="paragraph"><Text>hint success</Text></Block>
     </Block>
-    <Block type="page-ref"><Text></Text></Block>
+    <Block type="page-ref" data={{"page":"-M5QAMN0fvpH4HhfiwBN"}}><Text></Text></Block>
     <Block type="api-method">
         <Block type="api-method-summary"><Text>get test</Text></Block>
         <Block type="api-method-description"><Text></Text></Block>
@@ -266,20 +285,20 @@
     </Block>
     <Block type="paragraph"><Text></Text></Block>
     <Block type="tabs">
-        <Block type="tabs-item">
+        <Block type="tabs-item" data={{"title":"1"}}>
             <Block type="paragraph"><Text>111</Text></Block>
             <Block type="heading-2"><Text marks={[{"kind":"mark","type":"strikethrough","data":{}}]}>222</Text></Block>
         </Block>
-        <Block type="tabs-item">
+        <Block type="tabs-item" data={{"title":"2"}}>
             <Block type="paragraph"><Text></Text></Block>
         </Block>
-        <Block type="tabs-item">
+        <Block type="tabs-item" data={{"title":"3"}}>
             <Block type="paragraph"><Text marks={[{"kind":"mark","type":"bold","data":{}}]}>ddddd</Text></Block>
         </Block>
-        <Block type="tabs-item">
+        <Block type="tabs-item" data={{"title":"4---4"}}>
             <Block type="heading-1"><Text>dasda</Text></Block>
         </Block>
     </Block>
-    <Block type="math"><Text></Text></Block>
-    <Block type="file"><Text></Text></Block>
+    <Block type="math" data={{"formula":"\\sqrt[n]{1+x+x^2+x^3+\\dots+x^n}"}}><Text></Text></Block>
+    <Block type="file" data={{"assetID":"-M5Q9B2crYznyX5yghuy"}}><Text></Text></Block>
 </Document>

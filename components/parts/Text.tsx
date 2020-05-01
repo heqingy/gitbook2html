@@ -49,8 +49,6 @@ const Container: React.FC<{
     children?: any
     style?: React.CSSProperties
 }> = ({ children, style = {} }) => {
-    console.log({ ...styles.defaultStyle, ...style }, children)
-
     return <div style={{ ...Object.assign({}, styles.defaultStyle, style) }}> {children}</div >
 }
 

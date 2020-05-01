@@ -21,7 +21,15 @@ type Ranges struct {
 
 // Data 节点data
 type Data struct {
-	Href string `json:"href"`
+	Href    string    `json:"href,omitempty"`
+	Checked *bool     `json:"checked,omitempty"`
+	AssetID string    `json:"assetID,omitempty"`
+	Caption string    `json:"caption,omitempty"`
+	Aligns  *[]string `json:"aligns,omitempty"`
+	Style   string    `json:"style,omitempty"`
+	Page    string    `json:"page,omitempty"`
+	Title   string    `json:"title,omitempty"`
+	Formula string    `json:"formula,omitempty"`
 }
 
 // NodeTree 节点树结构

@@ -4,15 +4,22 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "npx webpack-dev-server --entry './test/index'='./test/index.tsx'"
+    "dev": "npx webpack-dev-server --entry './test/index'='./test/index.tsx' --config webpack.dev.config.js --progress",
+    "build": "npx webpack --config webpack.config.js --progress"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.1.0",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
+    "antd": "^4.2.0",
+    "css-loader": "^3.5.3",
+    "open-browser-webpack-plugin": "^0.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "style-loader": "^1.2.1",
     "ts-loader": "^7.0.1",
     "typescript": "^3.8.3",
+    "typestyle": "^2.1.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
