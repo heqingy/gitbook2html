@@ -13,7 +13,7 @@ export const RenderTable: React.FC<{
             return <div style={{ marginBottom: "20px" }}>
                 {
                     React.Children.map(children, (child: any, idx) => {
-                        return React.cloneElement(child, { data: Object.assign({}, data, { isFirst: idx === 0 }) })
+                        return React.cloneElement(child, { key: idx, data: Object.assign({}, data, { isFirst: idx === 0 }) })
                     })
                 }
             </div>
@@ -25,6 +25,7 @@ export const RenderTable: React.FC<{
                 {
                     React.Children.map(children, (child, idx) => {
                         return <Col
+                            key={idx}
                             span={24 / React.Children.toArray(children).length}
                             style={{ alignItems: data?.aligns?.[idx] || 'left' }}
                         >

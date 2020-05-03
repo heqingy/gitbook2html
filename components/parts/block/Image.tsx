@@ -11,7 +11,7 @@ export const RenderImage: React.FC<{ type: ImageType, data?: BlockData, children
             return <div>
                 {
                     !!origin_key && <div>
-                        <img style={{ width: "70%", margin: "0 auto", display: "block" }} src={`${STATIC_PATH}${assets[origin_key]}`} />
+                        <img style={{ width: "70%", margin: "0 auto", display: "block" }} src={`${STATIC_PATH}${assets[origin_key]?.path}`} />
                         <div style={{ textAlign: 'center', color: "rgb(157, 170, 182)", fontSize: "16px",marginTop:"8px" }}>{data?.caption}</div>
                     </div>
                 }

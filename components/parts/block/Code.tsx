@@ -21,7 +21,7 @@ export const RenderCode: React.FC<{ type: CodeType; children: any }> = ({ type, 
                 backgroundColor: "rgb(24,48,85)",
                 position: "relative"
             }}>
-                <textarea defaultValue={copyContent} style={{ opacity: 0, position: 'absolute' }} id="code"/>
+                <textarea defaultValue={copyContent} style={{ opacity: 0, position: 'absolute' }} id="code" />
                 <OnHover onMouseLeave={() => setCopied(false)}>
                     {isEnter => {
                         return <div
@@ -50,7 +50,7 @@ export const RenderCode: React.FC<{ type: CodeType; children: any }> = ({ type, 
                     if (childs.length === 1) {
                         return c
                     }
-                    return <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                    return <div key={i} style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                         <span style={{ color: "rgb(92, 105, 117)", marginRight: "14px", display: "block", fontSize: 11 }}>{i}</span>
                         <div>{c}</div>
                     </div>
