@@ -8,6 +8,7 @@ func RenderHTMLTemplate(bundlePath string) string {
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script type="text/javascript" src='./pageRoutes.js'></script>
 		<title>Document</title>
 	</head>
 	
@@ -24,6 +25,7 @@ func RenderTsxTemplate(dom string) string {
 	return `
 	import * as React from 'react'
 	import * as ReactDom from 'react-dom'
+	import 'antd/dist/antd.css';
 
 	// MarkDown render parts
 	import { Document } from '@parts/Document.tsx';

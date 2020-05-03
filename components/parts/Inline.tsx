@@ -3,10 +3,11 @@ import * as React from 'react';
 interface LinkData {
     href?: string
     code?: string
+    assetID?: string
 }
 
 type LinkType<T> = {
-    type: 'link' | 'emoji'
+    type: 'link' | 'emoji' | 'inline-image'
     data?: LinkData
 } & T
 
@@ -17,11 +18,16 @@ export const Inline: React.SFC<LinkType<Partial<{
     switch (type) {
         case "emoji":
             return <span>
-                <span style={{marginRight:"8px"}}>{emoji}</span>
+                <span style={{ marginRight: "8px" }}>{emoji}</span>
                 {children}
             </span>
         case "link":
             return renderLinkContainer(data, children);
+        case "inline-image":
+            return <span>
+                none-inline-image
+                {children}
+            </span>
         default:
             return children
     }
@@ -38,7 +44,7 @@ const renderLinkContainer = (data?: LinkData, child?: JSX.Element) => {
             color: "rgb(255, 209, 57)",
             display: "inline-block",
             position: "relative",
-            lineHeight:"26px"
+            lineHeight: "26px"
         }}
         onClick={() => {
             window.open(data?.href)

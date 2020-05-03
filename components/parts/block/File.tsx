@@ -34,7 +34,6 @@ export const RenderFile: React.FC<{
                                             <span>{renderFileSize(fileInfo?.size)}</span>
                                         </div>
                                     </div>
-
                                 </a>
                             }
                         }

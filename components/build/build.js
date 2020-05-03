@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const deepMapFile = require('./deepMapFile');
 
 const sourcePath = path.join(__dirname, '../source')
 const buildPath = path.join(__dirname, '../build')
@@ -45,20 +46,37 @@ function makeEntry(tsxFilePath) {
 
 function makeAssetsPath() {
     const pathJson = {};
-    (fs.readdirSync(sourcePath) || []).forEach(f => {
-        if (!f.includes('.DS_Store')) {
-            (fs.readdirSync(`${sourcePath}/${f}/assets`) || []).map(i => {
-                pathJson[i] = {
-                    path: `/${f}/assets/${i}`,
-                    size: fs.statSync(`${sourcePath}/${f}/assets/${i}`).size
-                }
-            })
+    const excludeFiles = ['.DS_Store', '.DS_Store']
+    deepMapFile(path.join(__dirname, '../source'), (filePath, filename) => {
+        if (!filePath || excludeFiles.includes(filename)) {
+            return;
         }
-    })
 
-    fs.writeFileSync(`${buildPath}/assets.js`, `
-        module.exports = ${JSON.stringify(pathJson)}
-    `);
+        if (filename === 'revision.json') {
+            const projectVersionDirPath = String(filePath).replace(filename, 'versions')
+            const versionDirs = fs.readdirSync(projectVersionDirPath)
+            versionDirs.forEach(versionDirName => {
+                const versionPath = `${projectVersionDirPath}/${versionDirName}`
+                if (!excludeFiles.includes(versionDirName)) {
+                    // write reversion info to version dir
+                    fs.writeFileSync(`${versionPath}/pageRoutes.js`, `const pageRoutes = ${JSON.stringify(require(filePath).versions[versionDirName])}`);
+                }
+            });
+        }
+
+        const fp = String(filePath).replace(path.join(__dirname, '../source'), "")
+        const parentDir = ['/assets/']
+        const isTargetDir = !!parentDir.find(dirname => !!fp.includes(dirname))
+        if (isTargetDir) {
+            const fileName = fp.split('/').slice(-1).join('')
+            pathJson[fileName] = {
+                path: fp,
+                size: fs.statSync(filePath).size
+            }
+        }
+    }, () => {
+        fs.writeFileSync(`${buildPath}/assets.js`, `module.exports = ${JSON.stringify(pathJson)}`);
+    });
 }
 
 getAllTsxFile(sourcePath, () => {

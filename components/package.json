@@ -20,6 +20,7 @@
     "react-katex": "^2.0.2",
     "react-latex": "^1.6.0",
     "style-loader": "^1.2.1",
+    "terser-webpack-plugin": "^3.0.0",
     "ts-loader": "^7.0.1",
     "typescript": "^3.8.3",
     "typestyle": "^2.1.0",

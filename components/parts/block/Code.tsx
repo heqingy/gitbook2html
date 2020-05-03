@@ -3,7 +3,7 @@ import { CopyOutlined } from '@ant-design/icons'
 import { OnHover } from '@lib/onHover.tsx'
 import { Tooltip } from 'antd'
 
-export type CodeType = "code-line" | "code"
+export type CodeType = "code-line" | "code" | "code-tab"
 
 export const RenderCode: React.FC<{ type: CodeType; children: any }> = ({ type, children }) => {
     const [copied, setCopied] = React.useState(false)
@@ -60,6 +60,11 @@ export const RenderCode: React.FC<{ type: CodeType; children: any }> = ({ type, 
             return <div style={{
                 color: "rgba(230, 236, 241,0.8)"
             }}>
+                {children}
+            </div>
+        case "code-tab":
+            return <div>
+                none-code-tab
                 {children}
             </div>
         default:

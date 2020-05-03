@@ -33,6 +33,10 @@ func Unzip(src string, dest string) ([]string, error) {
 
 		filenames = append(filenames, fpath)
 
+		if idx := strings.Index(f.Name, "__MACOSX"); idx != -1 {
+			continue
+		}
+
 		if f.FileInfo().IsDir() {
 			// Make Folder
 			os.MkdirAll(fpath, os.ModePerm)

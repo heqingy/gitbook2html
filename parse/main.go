@@ -10,6 +10,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var pwd, _ = os.Getwd()
@@ -42,8 +43,7 @@ func getAllZipFile() []os.FileInfo {
 // 解压待处理文件
 func upzipSourceFiles(fileName string) {
 	zipFilePath := zipPath + fileName
-	upzipFilePath := sourcePath + utils.GetOnlyName(fileName)
-	zip.Unzip(zipFilePath, upzipFilePath)
+	zip.Unzip(zipFilePath, sourcePath)
 }
 
 // 获取目标项目待解析版本信息
@@ -63,7 +63,10 @@ func getProjectVersionList(project string) []os.FileInfo {
 	}
 	for i := range fileinfoList {
 		versionName := fileinfoList[i].Name()
-		formatTargetVersion(versionPath+"/"+versionName, targetVersionPath+"/"+versionName)
+
+		if idx := strings.Index(versionPath+"/"+versionName, ".DS_Store"); idx == -1 {
+			formatTargetVersion(versionPath+"/"+versionName, targetVersionPath+"/"+versionName)
+		}
 	}
 
 	return fileinfoList
@@ -72,9 +75,8 @@ func getProjectVersionList(project string) []os.FileInfo {
 // 获得指定版本内的json文件
 func formatTargetVersion(versionPath string, targetDir string) []os.FileInfo {
 	fileinfoList, err := ioutil.ReadDir(versionPath)
-
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err, versionPath)
 	}
 	for i := range fileinfoList {
 		fileName := fileinfoList[i].Name()
@@ -108,5 +110,8 @@ func makeHTML(jsonPath string) string {
 
 func makeTSX(jsonPath string) string {
 	htmlDom := formatter.Parser(jsonPath)
+	if htmlDom == "none" {
+		htmlDom = "<div>无渲染内容</div>"
+	}
 	return h.RenderTsxTemplate(htmlDom)
 }
