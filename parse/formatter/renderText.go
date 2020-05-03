@@ -4,7 +4,6 @@ import (
 	"gitbook/parse/h"
 )
 
-//RenderText renderText
 func RenderText(n *NodeTree, child string) string {
 	text := ""
 	if len(n.Ranges) > 0 {

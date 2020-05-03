@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"path"
@@ -74,15 +75,11 @@ func CopyFile(src, dst string) bool {
 			return false
 		}
 	}
-	//这里要把O_TRUNC 加上，否则会出现新旧文件内容出现重叠现象
 	dstFile, e := os.OpenFile(dst, os.O_CREATE|os.O_TRUNC|os.O_RDWR, os.ModePerm)
 	if e != nil {
 		return false
 	}
 	defer dstFile.Close()
-	//fileInfo, e := srcFile.Stat()
-	//fileInfo.Size() > 1024
-	//byteBuffer := make([]byte, 10)
 	if _, e := io.Copy(dstFile, srcFile); e != nil {
 		return false
 	} else {
@@ -126,8 +123,19 @@ func CopyPath(src, dst string) bool {
 	})
 
 	if err != nil {
+		fmt.Println(err, "++")
 		return false
 	}
 	return true
+}
 
+func PathExists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return false, err
 }

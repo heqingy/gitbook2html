@@ -3,6 +3,7 @@ const entry = require('./build/entry')
 const webpack = require('webpack')
 
 module.exports = {
+    devtool: 'none',
     mode: 'production',
     entry,
     output: {
@@ -14,7 +15,7 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            STATIC_PATH: JSON.stringify(path.resolve(__dirname, '../dist'))
+            STATIC_PATH: JSON.stringify('../..')
         })
     ],
     module: {

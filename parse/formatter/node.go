@@ -5,12 +5,10 @@ type node interface {
 	RenderChild() []NodeTree
 }
 
-//Render _
 func Render(json NodeTree) string {
 	return json.RenderHTML()
 }
 
-//RenderHTML _
 func (n *NodeTree) RenderHTML() string {
 	nodesResult := n.RenderNodes()
 
@@ -29,7 +27,6 @@ func (n *NodeTree) RenderHTML() string {
 	return "none"
 }
 
-//RenderNodes _
 func (n *NodeTree) RenderNodes() string {
 	result := ""
 

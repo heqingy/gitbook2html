@@ -4,7 +4,6 @@ import (
 	"gitbook/parse/h"
 )
 
-//RenderInline renderInline
 func RenderInline(n *NodeTree, child string) string {
 	typeAttr := [1]h.AttrStringStruct{{
 		Key:   "type",

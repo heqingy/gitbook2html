@@ -43,13 +43,14 @@ function makeEntry(tsxFilePath) {
     `);
 }
 
-function makeAssetsPath() {
+function makeAssetsMapping() {
     const pathJson = {};
-    (fs.readdirSync(sourcePath) || []).map(f => {
-        (fs.readdirSync(`${sourcePath}/${f}/assets`) || []).map(i => {
-            pathJson[i] = `/${f}/assets/${i}`
-        })
-        
+    (fs.readdirSync(sourcePath) || []).forEach(f => {
+        if (!f.includes('.DS_Store')) {
+            (fs.readdirSync(`${sourcePath}/${f}/assets`) || []).map(i => {
+                pathJson[i] = `/assets/${i}`
+            })
+        }
     })
 
     fs.writeFileSync(`${buildPath}/assets.js`, `
@@ -59,5 +60,5 @@ function makeAssetsPath() {
 
 getAllTsxFile(sourcePath, () => {
     makeEntry(tsxFilePath)
-    makeAssetsPath()
+    makeAssetsMapping()
 })

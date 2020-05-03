@@ -1,6 +1,5 @@
 package h
 
-// RenderHTMLTemplate html模板
 func RenderHTMLTemplate(bundlePath string) string {
 	return `
 	<!DOCTYPE html>
@@ -21,7 +20,6 @@ func RenderHTMLTemplate(bundlePath string) string {
 	`
 }
 
-// RenderTsxTemplate tsx模板
 func RenderTsxTemplate(dom string) string {
 	return `
 	import * as React from 'react'

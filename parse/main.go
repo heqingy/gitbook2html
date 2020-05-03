@@ -48,30 +48,21 @@ func upzipSourceFiles(fileName string) {
 
 // 获取目标项目待解析版本信息
 func getProjectVersionList(project string) []os.FileInfo {
-	versionPath := sourcePath + project + "/versions"
-	targetVersionPath := distPath + project + "/versions"
-
-	reversionPath := sourcePath + project + "/revision.json"
-	targetReversionPath := distPath + project + "/revision.json"
-
-	assetsPath := sourcePath + project + "/assets"
-	targetAssetsPath := distPath + project + "/assets"
+	basePath := sourcePath + project
+	targetBasePath := distPath + project
+	versionPath := basePath + "/versions"
+	targetVersionPath := targetBasePath + "/versions"
 
 	fileinfoList, err := ioutil.ReadDir(versionPath)
-	utils.CopyPath(assetsPath, targetAssetsPath)
+
+	// Paste the source code into the pre-process directory
+	utils.CopyPath(basePath, targetBasePath)
+
 	if err != nil {
 		log.Fatal(err)
 	}
 	for i := range fileinfoList {
 		versionName := fileinfoList[i].Name()
-		makeVersionStatus := utils.WhriteFile(targetReversionPath, reversionPath)
-
-		if makeVersionStatus {
-			fmt.Println(project, "reversion创建成功")
-		} else {
-			fmt.Println(project, "reversion创建失败")
-		}
-
 		formatTargetVersion(versionPath+"/"+versionName, targetVersionPath+"/"+versionName)
 	}
 

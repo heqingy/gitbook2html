@@ -9,28 +9,18 @@ import { Text } from '@parts/Text.tsx';
 import { Inline } from '@parts/Inline.tsx';
 
 const App = () => {
-    return <Document>
+    return <Document type="">
         <Block type="paragraph"><Text>Paragraph</Text></Block>
-        <Block type="paragraph"><Text marks={[{ "kind": "mark", "type": "bold", "data": {} }]}>Paragraph bold</Text>
+        <Block type="paragraph"><Text marks={[{ "kind": "mark", "type": "bold", "data": {} }]}>Paragraph bold</Text></Block>
+        <Block type="paragraph"><Text
+            marks={[{ "kind": "mark", "type": "bold", "data": {} }, { "kind": "mark", "type": "italic", "data": {} }]}>Paragraph
+        </Text><Text marks={[{ "kind": "mark", "type": "bold", "data": {} }]}>ltalic</Text></Block>
+        <Block type="paragraph"><Text
+            marks={[{ "kind": "mark", "type": "bold", "data": {} }, { "kind": "mark", "type": "italic", "data": {} }, { "kind": "mark", "type": "strikethrough", "data": {} }]}>Paragraph
+        </Text><Text
+                marks={[{ "kind": "mark", "type": "bold", "data": {} }, { "kind": "mark", "type": "strikethrough", "data": {} }]}>delete</Text>
         </Block>
-        <Block type="paragraph"><Text marks={[{ "kind": "mark", "type": "bold", "data": {} }, {
-            "kind": "mark"
-            , "type": "italic", "data": {}
-        }]}>Paragraph </Text><Text marks={[{
-            "kind": "mark", "type": "bold"
-            , "data": {}
-        }]}>ltalic</Text></Block>
-        <Block type="paragraph"><Text marks={[{ "kind": "mark", "type": "bold", "data": {} }, {
-            "kind": "mark"
-            , "type": "italic", "data": {}
-        }, {
-            "kind": "mark", "type": "strikethrough", "data": {}
-        }]}>Paragraph </Text><Text marks={[{ "kind": "mark", "type": "bold", "data": {} }, {
-            "kind": "mark"
-            , "type": "strikethrough", "data": {}
-        }]}>delete</Text></Block>
-        <Block type="paragraph"><Text marks={[{ "kind": "mark", "type": "code", "data": {} }]}>Paragraph code</Text>
-        </Block>
+        <Block type="paragraph"><Text marks={[{ "kind": "mark", "type": "code", "data": {} }]}>Paragraph code</Text></Block>
         <Block type="paragraph"><Text></Text>
             <Inline type="link" data={{ "href": "https://www.baidu.com" }}><Text>Paragraph link</Text></Inline><Text></Text>
         </Block>
@@ -174,6 +164,9 @@ const App = () => {
         </Block>
         <Block type="code">
             <Block type="code-line"><Text>code block (支持多语言)</Text></Block>
+            <Block type="code-line"><Text>111</Text></Block>
+            <Block type="code-line"><Text>111</Text></Block>
+            <Block type="code-line"><Text>11</Text></Block>
         </Block>
         <Block type="blockquote">
             <Block type="paragraph"><Text>Quote 1</Text></Block>
@@ -269,7 +262,6 @@ const App = () => {
                 </Block>
             </Block>
         </Block>
-
         <Block type="hint" data={{ "style": "warning" }}>
             <Block type="heading-1"><Text>hint warning</Text></Block>
         </Block>

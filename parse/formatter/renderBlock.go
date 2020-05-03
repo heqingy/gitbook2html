@@ -4,7 +4,6 @@ import (
 	"gitbook/parse/h"
 )
 
-//RenderBlock renderBlock
 func RenderBlock(n *NodeTree, child string) string {
 	attrWithType := [1]h.AttrStringStruct{{
 		Key:   "type",

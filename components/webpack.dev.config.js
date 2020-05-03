@@ -2,8 +2,9 @@ const path = require('path')
 const entry = require('./build/entry')
 const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 const webpack = require('webpack')
-console.log(__dirname, '=')
+
 module.exports = {
+    devtool: 'none',
     mode: 'development',
     entry,
     output: {
