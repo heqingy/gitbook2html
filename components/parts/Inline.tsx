@@ -4,10 +4,11 @@ interface LinkData {
     href?: string
     code?: string
     assetID?: string
+    formula?: string
 }
 
 type LinkType<T> = {
-    type: 'link' | 'emoji' | 'inline-image'
+    type: 'link' | 'emoji' | 'inline-image' | 'inline-math'
     data?: LinkData
 } & T
 
@@ -26,6 +27,11 @@ export const Inline: React.SFC<LinkType<Partial<{
         case "inline-image":
             return <span>
                 none-inline-image
+                {children}
+            </span>
+        case "inline-math":
+            return <span>
+                none-inline-math
                 {children}
             </span>
         default:

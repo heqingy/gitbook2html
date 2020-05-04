@@ -1,6 +1,7 @@
 const path = require('path')
 const entry = require('./build/entry')
 const webpack = require('webpack')
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     devtool: 'none',
@@ -43,6 +44,16 @@ module.exports = {
                 ]
             }
         ]
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                cache: false,
+                parallel: true,
+                sourceMap: false,
+            })
+        ],
     },
     resolve: {
         alias: {

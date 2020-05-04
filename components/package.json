@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "npx webpack-dev-server --entry './test/index'='./test/index.tsx' --config webpack.dev.config.js --progress",
+    "build-dev": "npx webpack --entry './test/index'='./test/index.tsx' --config webpack.dev.config.js --progress",
     "build": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js --config webpack.config.js --progress"
   },
   "dependencies": {

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDom from 'react-dom'
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 
 // MarkDown render parts
 import { Document } from '@parts/Document.tsx';
