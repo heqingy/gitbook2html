@@ -1,1 +1,1 @@
-module.exports = {"-M5Q9B2crYznyX5yghuy-烤心管 (2).jpg":{"path":"/test/assets/-M5Q9B2crYznyX5yghuy-烤心管 (2).jpg","size":145112}}
+module.exports = {"-M5Q9B2crYznyX5yghuy-烤心管 (2).jpg":{"path":"/code/assets/-M5Q9B2crYznyX5yghuy-烤心管 (2).jpg","size":145112}}

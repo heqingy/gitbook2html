@@ -17,6 +17,7 @@
     "file-loader": "^6.0.0",
     "open-browser-webpack-plugin": "^0.0.5",
     "react": "^16.13.1",
+    "react-code-blocks": "^0.0.7",
     "react-dom": "^16.13.1",
     "react-katex": "^2.0.2",
     "react-latex": "^1.6.0",

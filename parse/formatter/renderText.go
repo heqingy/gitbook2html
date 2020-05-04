@@ -12,8 +12,8 @@ func RenderText(n *NodeTree, child string) string {
 		for i := range n.Ranges {
 			content := n.Ranges[i].Text
 
-			if strings.ContainsAny(content, "{&}&<&>") {
-				content = fmt.Sprintf("{`%s`}", transfer(content, '{', '}', '<', '>'))
+			if strings.ContainsAny(content, "{&}&<&>&`") {
+				content = fmt.Sprintf("{`%s`}", transfer(content, '{', '}', '<', '>', '`'))
 			}
 
 			if len(n.Ranges[i].Marks) > 0 {

@@ -3,6 +3,7 @@ declare const pageName: string;
 declare const pageRoutes: PageRoutes;
 declare module 'react-latex';
 declare module 'react-katex';
+declare module 'react-code-blocks';
 
 declare type PageInfo = {
     uid: string,

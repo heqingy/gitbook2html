@@ -22,6 +22,7 @@ export type BlockData = {
     title?: string
     page?: string
     formula?: string
+    syntax?: string
     aligns?: Array<'right' | 'left' | 'center'>
     style?: HintStyle
 }
@@ -37,7 +38,7 @@ export const Block: React.SFC<Partial<{
         case 'list':
             return <RenderList type={type as ListType} data={data}>{children}</RenderList>
         case 'code':
-            return <RenderCode type={type as CodeType}>{children}</RenderCode>
+            return <RenderCode type={type as CodeType} data={data}>{children}</RenderCode>
         case 'blockquote':
             return <RenderBlockquote type={type as BlockquoteType}>{children}</RenderBlockquote>
         case 'image':

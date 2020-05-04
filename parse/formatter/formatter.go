@@ -26,6 +26,7 @@ type Data struct {
 	Style   string    `json:"style,omitempty"`
 	Page    string    `json:"page,omitempty"`
 	Title   string    `json:"title,omitempty"`
+	Syntax  string    `json:"syntax,omitempty"`
 	Code    string    `json:"code,omitempty"`
 	Formula string    `json:"formula,omitempty"`
 }
