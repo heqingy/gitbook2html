@@ -43,7 +43,7 @@ func getAllZipFile() []os.FileInfo {
 // 解压待处理文件
 func upzipSourceFiles(fileName string) {
 	zipFilePath := zipPath + fileName
-	zip.Unzip(zipFilePath, sourcePath)
+	zip.Unzip(zipFilePath, sourcePath+utils.GetOnlyName(fileName))
 }
 
 // 获取目标项目待解析版本信息
@@ -105,13 +105,10 @@ func parseJSON(jsonPath string, targetPath string) {
 }
 
 func makeHTML(jsonPath string) string {
-	return h.RenderHTMLTemplate(`"./` + utils.GetOnlyName(jsonPath) + `.js"`)
+	return h.RenderHTMLTemplate(utils.GetOnlyName(jsonPath))
 }
 
 func makeTSX(jsonPath string) string {
 	htmlDom := formatter.Parser(jsonPath)
-	if htmlDom == "none" {
-		htmlDom = "<div>无渲染内容</div>"
-	}
 	return h.RenderTsxTemplate(htmlDom)
 }

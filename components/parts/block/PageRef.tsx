@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { BlockData } from '.'
 import { OnHover } from '@lib/OnHover.tsx'
+import { findPage } from '@lib/findPage.ts'
 import { message } from 'antd'
 import { ArrowRightOutlined } from '@ant-design/icons'
 
@@ -47,30 +48,3 @@ const PageLink: React.FC<{ pageInfo?: PageInfo; link?: string }> = ({ pageInfo, 
     </OnHover>
 }
 
-function findPage(key?: string): PageInfo | undefined {
-    if (!key) {
-        return undefined
-    }
-    if (pageRoutes?.page?.uid === key) {
-        return pageRoutes?.page
-    } else {
-        return mapPageInfo(pageRoutes?.page, key)
-    }
-}
-
-function mapPageInfo(page: PageInfo, key: string): PageInfo | undefined {
-    if (!page) {
-        return undefined
-    }
-
-    const targetPage = page.pages.find(p => p.uid === key)
-    if (!!targetPage) {
-        return targetPage
-    }
-
-    for (let i = 0; i < page.pages.length; i++) {
-        if (!!page.pages?.length && mapPageInfo(page.pages[i], key)) {
-            return mapPageInfo(page.pages[i], key)
-        }
-    }
-}

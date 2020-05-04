@@ -1,3 +1,3 @@
 
-        module.exports = {"./source/test/versions/master/master":"./source/test/versions/master/master.tsx"}
+        module.exports = {"./source/test/versions/master/master":"./source/test/versions/master/master.tsx","./source/route/versions/master/a":"./source/route/versions/master/a.tsx","./source/route/versions/master/b":"./source/route/versions/master/b.tsx","./source/route/versions/master/c":"./source/route/versions/master/c.tsx","./source/route/versions/master/d":"./source/route/versions/master/d.tsx","./source/route/versions/master/master":"./source/route/versions/master/master.tsx"}
     

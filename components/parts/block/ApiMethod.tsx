@@ -10,6 +10,7 @@ export const RenderApiMethod: React.FC<{
 }> = ({ type, children }) => {
     switch (type) {
         default:
-            return <div>{children}</div>
+            // return <div>{children}</div>
+            return null
     }
 }

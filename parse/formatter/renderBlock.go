@@ -13,5 +13,9 @@ func RenderBlock(n *NodeTree, child string) string {
 		Key:   "data",
 		Value: n.Data,
 	}}
-	return h.H("Block", child, h.AttrString(attrWithType)+h.AttrInterface(attrWithData))
+	attrWithKey := [1]h.AttrInterfaceStruct{{
+		Key:   "key",
+		Value: n.Key,
+	}}
+	return h.H("Block", child, h.AttrString(attrWithType)+h.AttrInterface(attrWithData)+h.AttrInterface(attrWithKey))
 }

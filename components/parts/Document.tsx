@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { findPage } from '@lib/findPage.ts'
 
 export const Document: React.SFC<Partial<{
     type: string
@@ -9,8 +10,8 @@ export const Document: React.SFC<Partial<{
     }, [])
     return <div style={styles.layout}>
         <div style={{ marginBottom: "32px", padding: "40px 0", borderBottom: "2px solid rgb(230, 236, 241)" }}>
-            <div style={styles.title}>我是固定的标题</div>
-            <div style={styles.desc}>我是一些摘要</div>
+            <div style={styles.title}>{findPage(pageName, 'path')?.title || "我是固定的标题"}</div>
+            <div style={styles.desc}>{findPage(pageName, 'path')?.description || "我是一些摘要"}</div>
         </div>
         {props.children}
     </div>
@@ -22,9 +23,9 @@ const styles: Record<
     'layout' | 'title' | 'desc'
     , React.CSSProperties> = {
     layout: {
-        maxWidth: "800px",
         backgroundColor: "whtie",
-        margin: "0 auto"
+        padding: "0 88px",
+        width: "100%"
     },
     title: {
         fontSize: "32px",

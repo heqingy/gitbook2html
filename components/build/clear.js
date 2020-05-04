@@ -3,8 +3,8 @@ const path = require('path');
 const deepMapFile = require('./deepMapFile');
 
 const filePath = path.join(__dirname, '../source');
-const parentDir = ['/assets/', '/versions/']
-const targetFileSuffix = ['.tsx', '.json']
+const parentDir = ['/versions/']
+const targetFileSuffix = ['.html', '.js']
 
 deepMapFile(filePath, (filePath) => {
     if (!filePath) {
@@ -16,7 +16,7 @@ deepMapFile(filePath, (filePath) => {
     const fp = String(filePath)
     const isTargetFile = !!targetFileSuffix.find(suffix => !!fp.endsWith(suffix))
     const isTargetDir = !!parentDir.find(dirname => !!fp.includes(dirname))
-    if (isTargetFile && isTargetDir) {
+    if (!isTargetFile && isTargetDir) {
         fs.unlinkSync(filePath)
     }
 });

@@ -1,4 +1,5 @@
 declare const STATIC_PATH: string;
+declare const pageName: string;
 declare const pageRoutes: PageRoutes;
 declare module 'react-latex';
 declare module 'react-katex';
