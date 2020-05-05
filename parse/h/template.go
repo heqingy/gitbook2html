@@ -13,7 +13,7 @@ func RenderHTMLTemplate(bundleName string) string {
 		<script type="text/javascript" src="../../modules/React.js"></script>
 		<script type="text/javascript" src="../../modules/ReactDOM.js"></script>
 		<script type="text/javascript" src="../../modules/Antd.js"></script>
-		
+
 		<script type="text/javascript" src='./pageRoutes.js'></script>
 		<script type="text/javascript">
 			const pageName = "` + bundleName + `"

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { CopyBlock, dracula } from 'react-code-blocks'
+import { CopyBlock, dracula } from '@lib/codeBlock/index.js'
 import { BlockData } from '.'
 
 export type CodeType = "code-line" | "code" | "code-tab"

@@ -8,10 +8,8 @@ declare const KaTeX: any;
 declare const antd: any;
 declare const pageRoutes: PageRoutes;
 declare module 'react-katex';
-declare module 'react-code-blocks';
-// declare module 'jquery';
-// declare module 'react-dom';
-// declare var $: any
+declare module '@lib/codeBlock/index.js';
+declare module '@lib/syntaxHighhligter/index.js';
 
 declare type PageInfo = {
     uid: string,
