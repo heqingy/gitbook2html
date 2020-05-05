@@ -45,14 +45,7 @@ module.exports = {
 
     },
     optimization: {
-        minimize: true,
-        minimizer: [
-            new TerserPlugin({
-                cache: false,
-                parallel: true,
-                sourceMap: false,
-            })
-        ],
+        minimize: false
     },
     resolve: {
         alias: {
