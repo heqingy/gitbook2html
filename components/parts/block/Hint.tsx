@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { BlockData } from '.'
-import { InfoCircleTwoTone, WarningTwoTone, CheckCircleTwoTone } from '@ant-design/icons'
+import InfoCircleTwoTone from '@ant-design/icons/InfoCircleTwoTone'
+import WarningTwoTone from '@ant-design/icons/WarningTwoTone'
+import CheckCircleTwoTone from '@ant-design/icons/CheckCircleTwoTone'
 
 export type HintType = "hint"
 

@@ -8,6 +8,12 @@ func RenderHTMLTemplate(bundleName string) string {
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="../../modules/Antd.css" />
+		<link rel="stylesheet" type="text/css" href="../../modules/katex.min.css" />
+		<script type="text/javascript" src="../../modules/React.js"></script>
+		<script type="text/javascript" src="../../modules/ReactDOM.js"></script>
+		<script type="text/javascript" src="../../modules/Antd.js"></script>
+		
 		<script type="text/javascript" src='./pageRoutes.js'></script>
 		<script type="text/javascript">
 			const pageName = "` + bundleName + `"
@@ -28,7 +34,6 @@ func RenderTsxTemplate(dom string) string {
 	return `
 	import * as React from 'react'
 	import * as ReactDom from 'react-dom'
-	import 'antd/dist/antd.min.css';
 
 	// MarkDown render parts
 	import { Document } from '@parts/Document.tsx';

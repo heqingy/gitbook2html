@@ -17,6 +17,8 @@ var pwd, _ = os.Getwd()
 var zipPath = filepath.Join(pwd, "../zip/") + "/"
 var sourcePath = filepath.Join(pwd, "../source/") + "/"
 var distPath = filepath.Join(pwd, "../dist/") + "/"
+var modulesPath = filepath.Join(pwd, "../modules/") + "/"
+var componentsPath = filepath.Join(pwd, "../components/") + "/"
 
 func main() {
 	fileinfoList := getAllZipFile()
@@ -56,6 +58,7 @@ func getProjectVersionList(project string) []os.FileInfo {
 	fileinfoList, err := ioutil.ReadDir(versionPath)
 
 	// Paste the source code into the pre-process directory
+	utils.CopyPath(modulesPath, targetBasePath+"/modules")
 	utils.CopyPath(basePath, targetBasePath)
 
 	if err != nil {

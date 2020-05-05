@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { BlockData } from '.'
-import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
 
 export type MathType = "math"

@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Checkbox } from 'antd'
 import { BlockData } from '.'
+const { Checkbox } = antd
 
 export type ListType = "list-unordered" | "list-item" | "list-ordered"
 

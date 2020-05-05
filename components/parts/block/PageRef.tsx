@@ -2,8 +2,8 @@ import * as React from 'react'
 import { BlockData } from '.'
 import { OnHover } from '@lib/OnHover.tsx'
 import { findPage } from '@lib/findPage.ts'
-import { message } from 'antd'
-import { ArrowRightOutlined } from '@ant-design/icons'
+import ArrowRightOutlined from '@ant-design/icons/ArrowRightOutlined'
+const { message } = antd
 
 export type PageRefType = "page-ref"
 

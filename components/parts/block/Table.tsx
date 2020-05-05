@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { BlockData } from '.'
-import { Row, Col } from 'antd'
+const { Row, Col } = antd
 
 export type TableType = "table" | "table-row" | "table-cell"
 

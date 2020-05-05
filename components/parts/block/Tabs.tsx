@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { BlockData } from '.'
-import { Tabs } from 'antd';
+const { Tabs } = antd
 
 const { TabPane } = Tabs;
 

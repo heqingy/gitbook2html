@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { mergeClassName } from '@lib/mergeClassName';
 
 type MarkTypes = "italic" | "bold" | "strikethrough" | "code"
 
@@ -27,19 +28,19 @@ function RenderMarkContainer(marks: Mark[], child?: any) {
     }
     switch (marks.shift()?.type) {
         case 'bold':
-            return <Container style={styles.textTypeBold}>
+            return <Container className="textTypeBold">
                 {RenderMarkContainer(marks, child)}
             </Container>
         case 'code':
-            return <Container style={styles.textTypeCode}>
+            return <Container className="textTypeCode">
                 {RenderMarkContainer(marks, child)}
             </Container>
         case 'italic':
-            return <Container style={styles.textTypeItalic}>
+            return <Container className="textTypeItalic">
                 {RenderMarkContainer(marks, child)}
             </Container>
         case 'strikethrough':
-            return <Container style={styles.textTypeStrikethrough}>
+            return <Container className="textTypeStrikethrough">
                 {RenderMarkContainer(marks, child)}
             </Container>
     }
@@ -47,31 +48,7 @@ function RenderMarkContainer(marks: Mark[], child?: any) {
 
 const Container: React.FC<{
     children?: any
-    style?: React.CSSProperties
-}> = ({ children, style = {} }) => {
-    return <div style={{ ...Object.assign({}, styles.defaultStyle, style) }}> {children}</div >
-}
-
-const styles: Record<
-    "textTypeItalic" | "textTypeBold" | "textTypeStrikethrough" | "textTypeCode" | "defaultStyle"
-    , React.CSSProperties> = {
-    defaultStyle: {
-        lineHeight: 1.625,
-        display: "inline-block"
-    },
-    textTypeItalic: {
-        fontStyle: "italic"
-    },
-    textTypeBold: {
-        fontWeight: 700
-    },
-    textTypeStrikethrough: {
-        textDecoration: "line-through"
-    },
-    textTypeCode: {
-        backgroundColor: "rgb(245,247,249)",
-        padding: "3px 6px",
-        borderRadius: "3px",
-        margin: "0px 1px"
-    },
+    className?: string
+}> = ({ children, className }) => {
+    return <div className={mergeClassName(['defaultStyle', className])}> {children}</div >
 }

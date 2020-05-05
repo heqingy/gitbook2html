@@ -11,9 +11,6 @@ module.exports = {
         path: path.resolve(__dirname, "."),
         filename: "[name].js"
     },
-    resolve: {
-        extensions: ['.ts', '.tsx', '.js']
-    },
     plugins: [
         new webpack.DefinePlugin({
             STATIC_PATH: JSON.stringify('../../..')
@@ -23,7 +20,14 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: ['ts-loader'],
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                          transpileOnly: true
+                        }
+                      }
+                ],
             },
             {
                 test: /\.css$/i,
@@ -31,19 +35,14 @@ module.exports = {
             },
             {
                 test: /\.(eot|woff2?|ttf|svg)$/,
-                use: [
-                    {
-                        loader: "url-loader",
-                        options: {
-                            name: "[name]-[hash:5].min.[ext]",
-                            limit: 5000, // fonts file size <= 5KB, use 'base64'; else, output svg file
-                            publicPath: "fonts/",
-                            outputPath: "fonts/"
-                        }
-                    }
-                ]
+                use: ["url-loader"]
             }
         ]
+    },
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM",
+
     },
     optimization: {
         minimize: true,
@@ -60,6 +59,7 @@ module.exports = {
             '@parts': path.resolve(__dirname, 'parts'),
             '@lib': path.resolve(__dirname, 'lib'),
             '@build': path.resolve(__dirname, 'build'),
-        }
+        },
+        extensions: ['.ts', '.tsx', '.js']
     }
 }
