@@ -3,6 +3,7 @@ import { BlockData } from '.'
 import InfoCircleTwoTone from '@ant-design/icons/InfoCircleTwoTone'
 import WarningTwoTone from '@ant-design/icons/WarningTwoTone'
 import CheckCircleTwoTone from '@ant-design/icons/CheckCircleTwoTone'
+import { style } from 'typestyle'
 
 export type HintType = "hint"
 
@@ -50,7 +51,6 @@ const Layout: React.FC<{ style?: HintStyle }> = ({ style, children }) => {
         padding: "24px",
         display: "flex",
         flexDirection: "row",
-        alignItems: "center",
         overflow: "hidden",
         position: "relative"
     }}>
@@ -68,7 +68,17 @@ const Layout: React.FC<{ style?: HintStyle }> = ({ style, children }) => {
                 <div style={{ marginRight: "8px" }}>{config[style].icon}</div>
             </React.Fragment>
         }
-        <div>{children}</div>
+        <div className={styles.clearPTagStyle}>{children}</div>
     </div>
 }
 
+
+const styles = {
+    clearPTagStyle: style({
+        $nest: {
+            "&>p": {
+                display:"inline"
+            }
+        }
+    })
+}

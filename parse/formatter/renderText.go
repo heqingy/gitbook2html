@@ -7,6 +7,10 @@ import (
 )
 
 func RenderText(n *NodeTree, child string) string {
+	attrWithKey := [1]h.AttrInterfaceStruct{{
+		Key:   "key",
+		Value: n.Key,
+	}}
 	text := ""
 	if len(n.Ranges) > 0 {
 		for i := range n.Ranges {
@@ -21,9 +25,9 @@ func RenderText(n *NodeTree, child string) string {
 					Key:   "marks",
 					Value: n.Ranges[i].Marks,
 				}}
-				text += h.H("Text", content, h.AttrInterface(attr))
+				text += h.H("Text", content, h.AttrInterface(attr)+h.AttrInterface(attrWithKey))
 			} else {
-				text += h.H("Text", content, "")
+				text += h.H("Text", content, ""+h.AttrInterface(attrWithKey))
 			}
 		}
 	}

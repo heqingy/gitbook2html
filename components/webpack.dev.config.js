@@ -58,7 +58,8 @@ module.exports = {
             '@parts': path.resolve(__dirname, 'parts'),
             '@lib': path.resolve(__dirname, 'lib'),
             '@build': path.resolve(__dirname, 'build'),
+            '@styles': path.resolve(__dirname, 'styles'),
         },
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js', '.css']
     }
 }

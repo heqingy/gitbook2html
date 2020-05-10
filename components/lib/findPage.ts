@@ -1,16 +1,17 @@
-export function findPage(v?: string, k?: keyof PageInfo): PageInfo | undefined {
+export function findPage(v?: string, k?: keyof VersionInfo): VersionInfo | undefined {
+    const pageRoutes = reversion.versions[versionName]?.page;
     const key = k! || "uid"
     if (!v) {
         return undefined
     }
-    if (pageRoutes?.page?.[key] === v) {
-        return pageRoutes?.page
+    if (pageRoutes?.[key] === v) {
+        return pageRoutes
     } else {
-        return mapPageInfo(pageRoutes?.page, v, k)
+        return mapPageInfo(pageRoutes, v, k)
     }
 }
 
-function mapPageInfo(page: PageInfo, v: string, k?: keyof PageInfo): PageInfo | undefined {
+function mapPageInfo(page: VersionInfo, v: string, k?: keyof VersionInfo): VersionInfo | undefined {
     const key = k! || "uid"
     if (!page) {
         return undefined

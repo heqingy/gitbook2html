@@ -1,6 +1,6 @@
 package h
 
-func RenderHTMLTemplate(bundleName string) string {
+func RenderHTMLTemplate(bundleName string, versionName string) string {
 	return `
 	<!DOCTYPE html>
 	<html lang="en">
@@ -14,9 +14,10 @@ func RenderHTMLTemplate(bundleName string) string {
 		<script type="text/javascript" src="../../modules/ReactDOM.js"></script>
 		<script type="text/javascript" src="../../modules/Antd.js"></script>
 
-		<script type="text/javascript" src='./pageRoutes.js'></script>
+		<script type="text/javascript" src='./reversion.js'></script>
 		<script type="text/javascript">
 			const pageName = "` + bundleName + `"
+			const versionName = "` + versionName + `"
 		</script>
 		<title>Document</title>
 	</head>
@@ -40,9 +41,9 @@ func RenderTsxTemplate(dom string) string {
 	import { Block } from '@parts/block/index.tsx';
 	import { Text } from '@parts/Text.tsx';
 	import { Inline } from '@parts/Inline.tsx';
-	import { Nav } from '@parts/Nav.tsx';
+	import { Sider } from '@parts/Sider.tsx';
 
-	const SOURCE_ELEMENT = <Nav>` + dom + `</Nav>
+	const SOURCE_ELEMENT = <Sider>` + dom + `</Sider>
 
 	ReactDom.render(SOURCE_ELEMENT, document.getElementById('app'));
 	`

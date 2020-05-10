@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { mergeClassName } from '@lib/mergeClassName';
+import { style } from 'typestyle';
 
 type MarkTypes = "italic" | "bold" | "strikethrough" | "code"
 
@@ -13,13 +14,16 @@ export const Text: React.SFC<Partial<{
     type: string
     marks: Mark[]
     children?: any
-}>> = ({ marks = [], type, children }) => {
-    const isText = typeof children === 'string'
-    if (!children) return null
-    return <Container>
-        {!!isText && (!!marks.length ? RenderMarkContainer(marks, children) : children)} &nbsp;
-        {!isText && children}
-    </Container>
+}>> = ({ marks = [], type, children: _children }) => {
+    const isText = typeof _children === 'string'
+    const children = isText ? String(_children).replace(/&nbsp;/ig, '') : _children
+    if (!children?.replace(/\./ig, '')) return null
+    return <p>
+        <Container>
+            {!!isText && (!!marks.length ? RenderMarkContainer(marks, children) : children)}
+            {!isText && children}
+        </Container>
+    </p>
 }
 
 function RenderMarkContainer(marks: Mark[], child?: any) {
@@ -28,19 +32,19 @@ function RenderMarkContainer(marks: Mark[], child?: any) {
     }
     switch (marks.shift()?.type) {
         case 'bold':
-            return <Container className="textTypeBold">
+            return <Container className={styles.textTypeBold}>
                 {RenderMarkContainer(marks, child)}
             </Container>
         case 'code':
-            return <Container className="textTypeCode">
+            return <Container className={styles.textTypeCode}>
                 {RenderMarkContainer(marks, child)}
             </Container>
         case 'italic':
-            return <Container className="textTypeItalic">
+            return <Container className={styles.textTypeItalic}>
                 {RenderMarkContainer(marks, child)}
             </Container>
         case 'strikethrough':
-            return <Container className="textTypeStrikethrough">
+            return <Container className={styles.textTypeStrikethrough}>
                 {RenderMarkContainer(marks, child)}
             </Container>
     }
@@ -50,5 +54,26 @@ const Container: React.FC<{
     children?: any
     className?: string
 }> = ({ children, className }) => {
-    return <div className={mergeClassName(['defaultStyle', className])}> {children}</div >
+    return <span className={mergeClassName([styles.defaultStyle, className])}>{children}</span>
+}
+
+const styles = {
+    defaultStyle: style({
+        lineHeight: 1.625
+    }),
+    textTypeItalic: style({
+        fontStyle: "italic",
+    }),
+    textTypeBold: style({
+        fontWeight: 700,
+    }),
+    textTypeStrikethrough: style({
+        textDecoration: 'line-through',
+    }),
+    textTypeCode: style({
+        backgroundColor: "rgb(245, 247, 249)",
+        padding: "3px 6px",
+        borderRadius: "3px",
+        margin: "0px 1px",
+    }),
 }

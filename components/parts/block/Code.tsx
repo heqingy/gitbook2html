@@ -5,31 +5,31 @@ import { BlockData } from '.'
 export type CodeType = "code-line" | "code" | "code-tab"
 
 export const RenderCode: React.FC<{ type: CodeType; children: any, data?: BlockData; }> = ({ type, children, data }) => {
-    const childs = React.Children.toArray(children)
-    let codeContent = ``;
-    childs.forEach((c: any) => {
-        const text = c?.props?.children?.props?.children
-        !!text && (codeContent += `${text}\n`)
-    })
-    switch (type) {
-        case "code":
-            return <div style={{ width: "100%" }}>
-                <CopyBlock
-                    text={codeContent}
-                    language={data?.syntax || undefined}
-                    showLineNumbers
-                    theme={dracula}
-                    codeBlock
-                />
-            </div>
-        case "code-line":
-            return null
-        case "code-tab":
-            return <div>
-                none-code-tab
-                {children}
-            </div>
-        default:
-            return null;
+    if (type === 'code') {
+        const childs = React.Children.toArray(children) || []
+
+        return <React.Fragment>
+            {childs.map((codeTab: any, idx) => {
+                let codeContent = ``;
+                if (!!codeTab?.props?.children?.length) {
+                    (codeTab?.props?.children || [])?.forEach((codeLine: any) => {
+                        const text = codeLine?.props?.children?.props?.children
+                        !!text && (codeContent += `${text}\n`)
+                    })
+                }
+                codeContent += codeTab?.props?.children?.props?.children?.props?.children || ""
+                
+                return <div style={{ width: "100%" }} key={idx}>
+                    <CopyBlock
+                        text={codeContent}
+                        language={codeTab?.props?.data?.syntax || undefined}
+                        showLineNumbers
+                        theme={dracula}
+                        codeBlock
+                    />
+                </div>
+            })}
+        </React.Fragment>
     }
+    return null
 }

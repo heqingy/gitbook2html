@@ -1,10 +1,13 @@
 import * as React from 'react';
+import { style } from 'typestyle'
+import { findPage } from '@lib/findPage';
 
 interface LinkData {
     href?: string
     code?: string
     assetID?: string
     formula?: string
+    pageID?: string
 }
 
 type LinkType<T> = {
@@ -45,6 +48,7 @@ const renderLinkContainer = (data?: LinkData, child?: JSX.Element) => {
     return <div
         onMouseEnter={e => setShowUnderLine(true)}
         onMouseLeave={e => setShowUnderLine(false)}
+        className={styles.clearPTagStyle}
         style={{
             cursor: "pointer",
             color: "rgb(255, 209, 57)",
@@ -53,9 +57,24 @@ const renderLinkContainer = (data?: LinkData, child?: JSX.Element) => {
             lineHeight: "26px"
         }}
         onClick={() => {
+            const pageInfo = findPage(data?.pageID)
+            if (!!data?.pageID && !data?.href && !!pageInfo) {
+                location.assign(`./${pageInfo.path}.html`)
+                return;
+            }
             window.open(data?.href)
         }}>
         {child}
-        {showUnderLine && <div style={{ width: "100%", position: "absolute", bottom: 0, borderBottom: "0.8px solid rgb(255, 209, 57)" }} />}
+        {showUnderLine && <div style={{ width: "100%", position: "absolute", bottom: "6px", borderBottom: "1px solid rgb(255, 209, 57)" }} />}
     </div>
+}
+
+const styles = {
+    clearPTagStyle: style({
+        $nest: {
+            "&>p": {
+                display: "inline"
+            }
+        }
+    })
 }

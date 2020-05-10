@@ -58,8 +58,8 @@ function makeAssetsPath() {
             versionDirs.forEach(versionDirName => {
                 const versionPath = `${projectVersionDirPath}/${versionDirName}`
                 if (!excludeFiles.includes(versionDirName)) {
-                    // write reversion info to version dir
-                    fs.writeFileSync(`${versionPath}/pageRoutes.js`, `const pageRoutes = ${JSON.stringify(require(filePath).versions[versionDirName])}`);
+                    // write version info to version dir
+                    fs.writeFileSync(`${versionPath}/reversion.js`, `const reversion = ${JSON.stringify(require(filePath))}`);
                 }
             });
         }

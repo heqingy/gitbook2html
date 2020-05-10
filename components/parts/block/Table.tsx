@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { BlockData } from '.'
+import { style } from 'typestyle'
 const { Row, Col } = antd
 
 export type TableType = "table" | "table-row" | "table-cell"
@@ -35,10 +36,20 @@ export const RenderTable: React.FC<{
                 }
             </Row>
         case 'table-cell':
-            return <div style={{ padding: "8px" }}>
+            return <div style={{ padding: "8px" }} className={styles.clearPTagStyle}>
                 {children}
             </div>
         default:
             return null
     }
+}
+
+const styles = {
+    clearPTagStyle: style({
+        $nest: {
+            "&>p": {
+                display:"inline"
+            }
+        }
+    })
 }

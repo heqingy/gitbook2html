@@ -1,7 +1,6 @@
 const path = require('path')
 const entry = require('./build/entry')
 const webpack = require('webpack')
-const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     devtool: 'none',
@@ -42,7 +41,6 @@ module.exports = {
     externals: {
         "react": "React",
         "react-dom": "ReactDOM",
-
     },
     optimization: {
         minimize: false
@@ -52,7 +50,8 @@ module.exports = {
             '@parts': path.resolve(__dirname, 'parts'),
             '@lib': path.resolve(__dirname, 'lib'),
             '@build': path.resolve(__dirname, 'build'),
+            '@styles': path.resolve(__dirname, 'styles'),
         },
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js', '.css']
     }
 }

@@ -24,7 +24,8 @@ func (n *NodeTree) RenderHTML() string {
 	case "mark":
 		return RenderMark(n, nodesResult)
 	}
-	return "<div>" + n.Kind + "无渲染内容</div>"
+
+	return "<div></div>"
 }
 
 func (n *NodeTree) RenderNodes() string {

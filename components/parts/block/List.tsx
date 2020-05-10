@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { BlockData } from '.'
+import { style } from 'typestyle'
 const { Checkbox } = antd
 
 export type ListType = "list-unordered" | "list-item" | "list-ordered"
@@ -16,12 +17,12 @@ export const RenderList: React.FC<{
                     <div>{children}</div>
                 </div>
             }
-            return <li>{children}</li>
+            return <li className={styles.clearPTagStyle}>{children}</li>
         case 'list-unordered':
             if (hasTaskItem(React.Children.toArray(children))) {
                 return <div>{children}</div>
             }
-            return <ul>{children}</ul>
+            return <ul style={{ paddingLeft: "30px" }}>{children}</ul>
         case 'list-ordered':
             return <ol>{children}</ol>
     }
@@ -36,4 +37,14 @@ const hasTaskItem = (eles: Array<Exclude<React.ReactNode, boolean | null | undef
 const isTaskItem = (data: BlockData): boolean => {
     const d = new Object(data || {})
     return d.hasOwnProperty('checked')
+}
+
+const styles = {
+    clearPTagStyle: style({
+        $nest: {
+            "&>p": {
+                display:"inline"
+            }
+        }
+    })
 }

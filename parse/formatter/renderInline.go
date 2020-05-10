@@ -9,6 +9,12 @@ func RenderInline(n *NodeTree, child string) string {
 		Key:   "type",
 		Value: n.Type,
 	}}
+
+	attrWithKey := [1]h.AttrInterfaceStruct{{
+		Key:   "key",
+		Value: n.Key,
+	}}
+
 	text := ""
 
 	if (n.Data != Data{}) {
@@ -16,9 +22,9 @@ func RenderInline(n *NodeTree, child string) string {
 			Key:   "data",
 			Value: n.Data,
 		}}
-		text += h.H("Inline", child, h.AttrString(typeAttr)+h.AttrInterface(attr))
+		text += h.H("Inline", child, h.AttrString(typeAttr)+h.AttrInterface(attr)+h.AttrInterface(attrWithKey))
 	} else {
-		text += h.H("Inline", child, h.AttrString(typeAttr))
+		text += h.H("Inline", child, h.AttrString(typeAttr)+h.AttrInterface(attrWithKey))
 	}
 	return text
 }

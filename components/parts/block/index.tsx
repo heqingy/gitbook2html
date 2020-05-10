@@ -58,5 +58,5 @@ export const Block: React.SFC<Partial<{
         case 'file':
             return <RenderFile type={type as FileType} data={data}>{children}</RenderFile>
     }
-    return <div>{children}</div>
+    return children
 }

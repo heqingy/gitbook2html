@@ -78,21 +78,24 @@ func getProjectVersionList(project string) []os.FileInfo {
 // 获得指定版本内的json文件
 func formatTargetVersion(versionPath string, targetDir string) []os.FileInfo {
 	fileinfoList, err := ioutil.ReadDir(versionPath)
+
 	if err != nil {
 		log.Fatal(err, versionPath)
 	}
 	for i := range fileinfoList {
 		fileName := fileinfoList[i].Name()
-		parseJSON(versionPath+"/"+fileName, targetDir)
+		version := strings.Split(versionPath, "/")
+
+		parseJSON(versionPath+"/"+fileName, targetDir, version[len(version)-1])
 	}
 	return fileinfoList
 }
 
 // 解析json,并在指定目录生成对应的.html/.tsx
-func parseJSON(jsonPath string, targetPath string) {
+func parseJSON(jsonPath string, targetPath string, version string) {
 	onlyFileName := utils.GetOnlyName(jsonPath)
 
-	makeHtmlStatus := utils.WhriteFile(targetPath+"/"+onlyFileName+".html", makeHTML(jsonPath))
+	makeHtmlStatus := utils.WhriteFile(targetPath+"/"+onlyFileName+".html", makeHTML(jsonPath, version))
 	makeTsxStatus := utils.WhriteFile(targetPath+"/"+onlyFileName+".tsx", makeTSX(jsonPath))
 	if makeHtmlStatus {
 		fmt.Println(onlyFileName, "html创建成功")
@@ -107,8 +110,8 @@ func parseJSON(jsonPath string, targetPath string) {
 
 }
 
-func makeHTML(jsonPath string) string {
-	return h.RenderHTMLTemplate(utils.GetOnlyName(jsonPath))
+func makeHTML(jsonPath string, version string) string {
+	return h.RenderHTMLTemplate(utils.GetOnlyName(jsonPath), version)
 }
 
 func makeTSX(jsonPath string) string {

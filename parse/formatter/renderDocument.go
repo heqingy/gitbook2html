@@ -7,5 +7,9 @@ func RenderDocument(n *NodeTree, child string) string {
 		Key:   "type",
 		Value: n.Type,
 	}}
-	return h.H("Document", child, h.AttrString(attr))
+	attrWithKey := [1]h.AttrInterfaceStruct{{
+		Key:   "key",
+		Value: n.Key,
+	}}
+	return h.H("Document", child, h.AttrString(attr)+h.AttrInterface(attrWithKey))
 }

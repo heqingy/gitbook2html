@@ -23,7 +23,7 @@ export const RenderPageRef: React.FC<{
     }
 }
 
-const PageLink: React.FC<{ pageInfo?: PageInfo; link?: string }> = ({ pageInfo, link }) => {
+const PageLink: React.FC<{ pageInfo?: VersionInfo; link?: string }> = ({ pageInfo, link }) => {
     if (!pageInfo) {
         return <div>
             error ref:{link}
@@ -32,8 +32,8 @@ const PageLink: React.FC<{ pageInfo?: PageInfo; link?: string }> = ({ pageInfo, 
     return <OnHover>
         {
             onHover => {
-                return <a onClick={() => message.success('正在下载...')} style={{ color: "#FFD139" }} href={`./${pageInfo.path}.html`}>
-                    <div style={{ border: `1px solid ${onHover ? "#FFD139" : "#e2e9ef"}`, borderRadius: "3px", padding: "16px", display: "flex", justifyContent: "space-between" }}>
+                return <a style={{ color: "#FFD139" }} href={`./${pageInfo.path}.html`}>
+                    <div style={{ marginBottom:"16px",border: `1px solid ${onHover ? "#FFD139" : "#e2e9ef"}`, borderRadius: "3px", padding: "16px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ display: "flex", alignItems: "center", }}>
                             <ArrowRightOutlined style={{ fontSize: "24px", marginRight: "16px" }} />
                             {pageInfo.title}
