@@ -11,20 +11,23 @@ declare module 'react-katex';
 declare module '@lib/codeBlock/index.js';
 declare module '@lib/syntaxHighhligter/index.js';
 
+declare type Pages = Array<PageInfo>
+
 declare type PageInfo = {
-    uid: string,
-    title: string,
-    kind: string,
-    description: string,
-    path: string,
-    href: string,
-    documentURL: string,
-    createdAt: string,
-    pages: Array<PageInfo>,
-    github: any,
-    isPathUntouched: boolean,
-    stats: { words: number, images: number, codeLines: number, revisions: number },
-    edits: { contributions: Array<any> }
+    uid: string;
+    parentPath?: string;
+    title: string;
+    kind: 'document' | 'group';
+    description: string;
+    path: string;
+    href: string;
+    documentURL: string;
+    createdAt: string;
+    pages: Pages;
+    github: any;
+    isPathUntouched: boolean;
+    stats: { words: number, images: number, codeLines: number, revisions: number };
+    edits: { contributions: Array<any> };
 }
 
 declare type PageRoutes = {
