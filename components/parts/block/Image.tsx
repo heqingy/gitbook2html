@@ -8,15 +8,21 @@ export const RenderImage: React.FC<{ type: ImageType, data?: BlockData, children
     switch (type) {
         case "image":
             const origin_key = Object.keys(assets).find(k => !!data?.assetID && k.startsWith(data?.assetID))
-            return <div>
+            return <figure style={{ margin: "32px auto 24px" }}>
                 {
                     !!origin_key && <div>
-                        <img style={{ maxWidth: "70%", margin: "25px 0", display: "block" }} src={`${STATIC_PATH}${assets[origin_key]?.path}`} />
-                        <div style={{ textAlign: 'center', color: "rgb(157, 170, 182)", fontSize: "16px",marginTop:"8px" }}>{data?.caption}</div>
+                        <img style={{
+                            maxWidth: "100%",
+                            marginBottom: "16px",
+                            width: "100%",
+                            display: "block",
+                            maxHeight: "60vh",
+                            objectFit: "contain"
+                        }} src={`${STATIC_PATH}${assets[origin_key]?.path}`} />
+                        <div style={{ textAlign: 'center', color: "rgb(157, 170, 182)", fontSize: "16px", marginTop: "8px", }}>{data?.caption}</div>
                     </div>
                 }
-                {children}
-            </div>
+            </figure>
         default:
             return children
     }

@@ -11,7 +11,7 @@ export const RenderTable: React.FC<{
 }> = ({ type, children, data }) => {
     switch (type) {
         case 'table':
-            return <div style={{ marginBottom: "20px" }}>
+            return <div style={{ marginBottom: "20px", fontSize: "16px" }}>
                 {
                     React.Children.map(children, (child: any, idx) => {
                         return React.cloneElement(child, { key: idx, data: Object.assign({}, data, { isFirst: idx === 0 }) })
@@ -19,15 +19,18 @@ export const RenderTable: React.FC<{
                 }
             </div>
         case 'table-row':
-            return <Row style={{
+            const isTitleRow = (data as any)?.isFirst
+            return <Row justify="space-around" style={{
                 display: "flex",
-                borderBottom: `${(data as any)?.isFirst ? '2px' : "1px"} solid rgba(157,170,182,0.4)`,
+                borderBottom: `${isTitleRow ? '2px' : "1px"} solid rgba(157,170,182,0.4)`,
+                color: isTitleRow ? "rgba(157, 170, 182,0.7)" : "#3B454E",
+                fontWeight: isTitleRow ? 700 : 400,
             }}>
                 {
                     React.Children.map(children, (child, idx) => {
                         return <Col
                             key={idx}
-                            span={24 / React.Children.toArray(children).length}
+                            span={Math.floor(Number(24 / React.Children.toArray(children).length))}
                             style={{ alignItems: data?.aligns?.[idx] || 'left' }}
                         >
                             {child}
@@ -48,7 +51,7 @@ const styles = {
     clearPTagStyle: style({
         $nest: {
             "&>p": {
-                display:"inline"
+                display: "inline"
             }
         }
     })

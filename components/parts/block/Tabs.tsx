@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { BlockData } from '.'
+import { findChildType } from '@lib/findChildType'
+import { style } from 'typestyle';
 const { Tabs } = antd
 
 const { TabPane } = Tabs;
@@ -13,17 +15,34 @@ export const RenderTabs: React.FC<{
 }> = ({ type, children, data }) => {
     switch (type) {
         case "tabs":
-            return <Tabs>
-                {
-                    React.Children.map(children, (child, idx) => {
-                        return <TabPane tab={child?.props?.data?.title} key={idx.toString()}>
-                            {child}
-                        </TabPane>
-                    })
-                }
-                {children}
-            </Tabs>
+            return <div className={childrenWrapCls(children)}>
+                <Tabs>
+                    {
+                        React.Children.map(children, (child, idx) => {
+                            return <TabPane tab={child?.props?.data?.title} key={idx.toString()}>
+                                {child}
+                            </TabPane>
+                        })
+                    }
+                    {children}
+                </Tabs>
+            </div>
         default:
             return <div>{children}</div>
     }
+}
+
+const childrenWrapCls = (children: any): string => {
+    let className = ""
+    // check child is code block
+    if (findChildType(children, 'code')) {
+        className = style({
+            $nest: {
+                "&>.ant-tabs .ant-tabs-bar": {
+                    marginBottom: "2px !important"
+                }
+            }
+        })
+    }
+    return className
 }

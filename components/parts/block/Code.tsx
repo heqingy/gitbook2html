@@ -1,35 +1,80 @@
 import * as React from 'react'
 import { CopyBlock, dracula } from '@lib/codeBlock/index.js'
 import { BlockData } from '.'
+import { findChildType } from '@lib/findChildType'
+import { style } from 'typestyle'
 
 export type CodeType = "code-line" | "code" | "code-tab"
 
 export const RenderCode: React.FC<{ type: CodeType; children: any, data?: BlockData; }> = ({ type, children, data }) => {
     if (type === 'code') {
-        const childs = React.Children.toArray(children) || []
+        const childs: any[] = React.Children.toArray(children) || []
 
-        return <React.Fragment>
-            {childs.map((codeTab: any, idx) => {
+        if (findChildType(children, 'code-line')) {
+            return (() => {
                 let codeContent = ``;
-                if (!!codeTab?.props?.children?.length) {
-                    (codeTab?.props?.children || [])?.forEach((codeLine: any) => {
-                        const text = codeLine?.props?.children?.props?.children
-                        !!text && (codeContent += `${text}\n`)
-                    })
-                }
-                codeContent += codeTab?.props?.children?.props?.children?.props?.children || ""
-                
-                return <div style={{ width: "100%" }} key={idx}>
-                    <CopyBlock
-                        text={codeContent}
-                        language={codeTab?.props?.data?.syntax || undefined}
-                        showLineNumbers
-                        theme={dracula}
-                        codeBlock
-                    />
-                </div>
-            })}
-        </React.Fragment>
+                childs.forEach(child => {
+                    const text = formatStrIndent(child?.props?.children?.props?.children)
+                    codeContent += text ? `${text}\n` : '\n'
+                })
+
+                return <CodeBlock text={codeContent} language={data?.syntax || ""} />
+            })()
+        }
+
+        if (findChildType(children, 'code-tab')) {
+            return <React.Fragment>
+                {childs.map((child: any, idx) => {
+                    let codeContent = ``;
+
+                    if (!!child?.props?.children?.length) {
+                        (child?.props?.children || [])?.forEach((codeLine: any) => {
+                            const text = formatStrIndent(codeLine?.props?.children?.props?.children)
+                            !!text && (codeContent += `${text}\n`)
+                        })
+                    }
+                    codeContent += child?.props?.children?.props?.children?.props?.children || ""
+
+                    return <CodeBlock key={idx} text={codeContent} language={child?.props?.data?.syntax || ""} />
+                })}
+            </React.Fragment>
+        }
     }
     return null
+}
+
+const CodeBlock: React.FC<{ text: string; language: string }> = ({ text, language }) => {
+    return <div style={{
+        fontWeight: 100, fontSize: "14px",
+        padding: "24px 24px 24px 8px"
+    }} className={style({
+        $nest: {
+            "button": {
+                border: "1px solid transparent !important",
+                cursor: "pointer"
+            }
+        }
+    })}>
+        <CopyBlock
+            text={text}
+            language={language}
+            showLineNumbers
+            theme={dracula}
+            codeBlock
+        />
+    </div>
+}
+
+const formatStrIndent = (str: string = "") => {
+    let tmp = ``
+    let lastForIndex = 0
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === ' ') {
+            tmp += `  `
+        } else {
+            lastForIndex = i
+            break;
+        }
+    }
+    return tmp + str.slice(lastForIndex)
 }

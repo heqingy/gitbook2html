@@ -19,6 +19,26 @@ func RenderHTMLTemplate(bundleName string, versionName string) string {
 			const pageName = "` + bundleName + `"
 			const versionName = "` + versionName + `"
 		</script>
+		<style>
+			html,
+			body {
+				color: #242A31;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+				font-size: 15px;
+				box-sizing: border-box;
+				font-family: "Roboto", sans-serif;
+				line-height: 1em;
+				font-smoothing: antialiased;
+				text-size-adjust: 100%;
+				-ms-text-size-adjust: 100%;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-text-size-adjust: 100%;
+			}
+		</style>
 		<title>Document</title>
 	</head>
 	

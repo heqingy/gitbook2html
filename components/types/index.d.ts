@@ -6,6 +6,7 @@ declare const versionName: string;
 declare const ReactKaTeX: any;
 declare const InlineMath: any;
 declare const KaTeX: any;
+declare const katex: any;
 declare const antd: any;
 declare const reversion: ReVersion;
 declare module 'react-katex';

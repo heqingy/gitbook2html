@@ -26,7 +26,7 @@ const styles: Record<
         backgroundColor: "whtie",
         padding: "0 88px",
         width: "100%",
-        maxWidth: "750px",
+        maxWidth: "926px",
         fontSize: "16px",
     },
     title: {

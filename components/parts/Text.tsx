@@ -18,12 +18,10 @@ export const Text: React.SFC<Partial<{
     const isText = typeof _children === 'string'
     const children = isText ? String(_children).replace(/&nbsp;/ig, '') : _children
     if (!children?.replace(/\./ig, '')) return null
-    return <p>
-        <Container>
-            {!!isText && (!!marks.length ? RenderMarkContainer(marks, children) : children)}
-            {!isText && children}
-        </Container>
-    </p>
+    return <Container>
+        {!!isText && (!!marks.length ? RenderMarkContainer(marks, children) : children)}
+        {!isText && children}
+    </Container>
 }
 
 function RenderMarkContainer(marks: Mark[], child?: any) {
