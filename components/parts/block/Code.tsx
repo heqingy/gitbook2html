@@ -46,7 +46,7 @@ export const RenderCode: React.FC<{ type: CodeType; children: any, data?: BlockD
 const CodeBlock: React.FC<{ text: string; language: string }> = ({ text, language }) => {
     return <div style={{
         fontWeight: 100, fontSize: "14px",
-        padding: "24px 24px 24px 8px"
+        padding: "12px 24px 24px 8px"
     }} className={style({
         $nest: {
             "button": {

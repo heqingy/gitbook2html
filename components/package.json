@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "npx webpack-dev-server --entry './test/index'='./test/index.tsx' --config webpack.dev.config.js --progress --colors --profile",
     "build-dev": "npx webpack --entry './test/index'='./test/index.tsx' --config webpack.dev.config.js --progress",
-    "build": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js --config webpack.config.js --progress --colors --profile"
+    "build": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js --config webpack.config.js --progress --colors --profile",
+    "build-prod": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js --config webpack.prod.config.js --progress --colors --profile"
   },
   "dependencies": {
     "@ant-design/icons": "^4.1.0",
