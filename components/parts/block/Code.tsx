@@ -65,7 +65,11 @@ const CodeBlock: React.FC<{ text: string; language: string }> = ({ text, languag
     </div>
 }
 
-const formatStrIndent = (str: string = "") => {
+const formatStrIndent = (_str: string = "") => {
+    let str = _str
+    if (Array.isArray(_str)) {
+        str = _str.join('')
+    }
     let tmp = ``
     let lastForIndex = 0
     for (let i = 0; i < str.length; i++) {

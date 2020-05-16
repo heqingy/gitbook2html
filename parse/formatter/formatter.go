@@ -54,6 +54,7 @@ func Parser(jsonPath string) string {
 
 func Load(filename string, v interface{}) {
 	data, err := ioutil.ReadFile(filename)
+
 	if err != nil {
 		return
 	}

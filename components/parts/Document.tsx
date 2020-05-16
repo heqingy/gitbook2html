@@ -10,7 +10,7 @@ export const Document: React.SFC<Partial<{
     }, [])
     return <div style={styles.layout}>
         <div style={{ marginBottom: "32px", padding: "40px 0", borderBottom: "2px solid rgb(230, 236, 241)" }}>
-            <div style={styles.title}>{findPage(pageName, 'path')?.title || "我是固定的标题"}</div>
+            <h1 style={styles.title}>{findPage(pageName, 'path')?.title || "我是固定的标题"}</h1>
             {findPage(pageName, 'path')?.description && <div style={styles.desc}>{findPage(pageName, 'path')?.description}</div>}
         </div>
         {props.children}
@@ -31,9 +31,10 @@ const styles: Record<
     },
     title: {
         fontSize: "32px",
-        fontWeight: 500,
+        fontWeight: 700,
         lineHeight: 1.5,
-        color: "#242a31"
+        color: "#242a31",
+        marginBottom:0
     },
     desc: {
         marginTop: "8px",

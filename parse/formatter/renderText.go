@@ -1,7 +1,6 @@
 package formatter
 
 import (
-	"fmt"
 	"gitbook/parse/h"
 	"strings"
 )
@@ -16,8 +15,8 @@ func RenderText(n *NodeTree, child string) string {
 		for i := range n.Ranges {
 			content := n.Ranges[i].Text
 
-			if strings.ContainsAny(content, "{&}&<&>&`") {
-				content = fmt.Sprintf("{`%s`}", transfer(content, '{', '}', '<', '>', '`'))
+			if strings.ContainsAny(content, "{&}&<&>&`&\n") {
+				content = transfer(content, '{', '}', '<', '>', '`')
 			}
 
 			if len(n.Ranges[i].Marks) > 0 {
@@ -31,6 +30,7 @@ func RenderText(n *NodeTree, child string) string {
 			}
 		}
 	}
+
 	return text
 }
 
@@ -38,11 +38,21 @@ func transfer(s string, char ...byte) string {
 	for i := 0; i < len(s); i++ {
 		for _, c := range char {
 			if s[i] == c {
-				s = s[:i] + "\\" + s[i:]
-				i++
+				s = s[:i] + "{\"" + string(c) + "\"}" + s[i+1:]
+				i += 4
+				break
+			}
+			if s[i] == '\n' {
+				if i == len(s)-1 {
+					s = s[:i] + "<div><br/></div>" + s[i+1:]
+					return s
+				} else {
+					s = s[:i] + "<br/>" + s[i+1:]
+					i += 4
+				}
+				break
 			}
 		}
-
 	}
 	return s
 }

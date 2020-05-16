@@ -43,7 +43,7 @@ const config: Record<HintStyle, {
     },
 }
 
-const Layout: React.FC<{ style?: HintStyle }> = ({ style, children }) => {
+const Layout: React.FC<{ style?: HintStyle; children?: any }> = ({ style, children }) => {
     return <div style={{
         margin: "32px 0px",
         backgroundColor: "rgb(245, 247, 249)",
@@ -68,7 +68,7 @@ const Layout: React.FC<{ style?: HintStyle }> = ({ style, children }) => {
                 <div style={{ marginRight: "8px" }}>{config[style].icon}</div>
             </React.Fragment>
         }
-        <div className={styles.clearPTagStyle}>{children}</div>
+        <div className={!Array.isArray(children?.props?.children) ? styles.clearPTagStyle : ""}>{children}</div>
     </div>
 }
 
@@ -77,7 +77,7 @@ const styles = {
     clearPTagStyle: style({
         $nest: {
             "&>p": {
-                display:"inline"
+                marginBottom: 0
             }
         }
     })

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { style } from 'typestyle'
 import { findPage } from '@lib/findPage';
+import { InlineMath } from 'react-katex';
 
 interface LinkData {
     href?: string
@@ -33,10 +34,10 @@ export const Inline: React.SFC<LinkType<Partial<{
                 {children}
             </span>
         case "inline-math":
-            return <span>
-                none-inline-math
-                {children}
-            </span>
+            return (() => {
+                const formula = data?.formula && eval("'" + `${data?.formula}`.replace(/\\/g, "\\\\") + "'")
+                return !!formula ? <InlineMath>{formula}</InlineMath> : null
+            })()
         default:
             return children
     }
@@ -45,16 +46,15 @@ export const Inline: React.SFC<LinkType<Partial<{
 
 const renderLinkContainer = (data?: LinkData, child?: JSX.Element) => {
     const [showUnderLine, setShowUnderLine] = React.useState(false)
-    return <div
+    return <span
         onMouseEnter={e => setShowUnderLine(true)}
         onMouseLeave={e => setShowUnderLine(false)}
         className={styles.clearPTagStyle}
         style={{
             cursor: "pointer",
             color: "rgb(255, 209, 57)",
-            display: "inline-block",
             position: "relative",
-            lineHeight: "26px"
+            textDecorationLine: showUnderLine ? "underline" : undefined
         }}
         onClick={() => {
             const pageInfo = findPage(data?.pageID)
@@ -65,8 +65,7 @@ const renderLinkContainer = (data?: LinkData, child?: JSX.Element) => {
             window.open(data?.href)
         }}>
         {child}
-        {showUnderLine && <div style={{ width: "100%", position: "absolute", bottom: "6px", borderBottom: "1px solid rgb(255, 209, 57)" }} />}
-    </div>
+    </span>
 }
 
 const styles = {

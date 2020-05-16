@@ -11,7 +11,7 @@ export const RenderTable: React.FC<{
 }> = ({ type, children, data }) => {
     switch (type) {
         case 'table':
-            return <div style={{ marginBottom: "20px", fontSize: "16px" }}>
+            return <div style={{ margin: "24px 0 20px", fontSize: "16px" }}>
                 {
                     React.Children.map(children, (child: any, idx) => {
                         return React.cloneElement(child, { key: idx, data: Object.assign({}, data, { isFirst: idx === 0 }) })
@@ -20,7 +20,7 @@ export const RenderTable: React.FC<{
             </div>
         case 'table-row':
             const isTitleRow = (data as any)?.isFirst
-            return <Row justify="space-around" style={{
+            return <Row align="middle" justify="space-around" style={{
                 display: "flex",
                 borderBottom: `${isTitleRow ? '2px' : "1px"} solid rgba(157,170,182,0.4)`,
                 color: isTitleRow ? "rgba(157, 170, 182,0.7)" : "#3B454E",
@@ -31,7 +31,7 @@ export const RenderTable: React.FC<{
                         return <Col
                             key={idx}
                             span={Math.floor(Number(24 / React.Children.toArray(children).length))}
-                            style={{ alignItems: data?.aligns?.[idx] || 'left' }}
+                            style={{ alignItems: data?.aligns?.[idx] || 'left', }}
                         >
                             {child}
                         </Col>
