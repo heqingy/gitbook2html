@@ -4,7 +4,7 @@ const deepMapFile = require('./deepMapFile');
 
 const filePath = path.join(__dirname, '../source');
 const parentDir = ['/versions/']
-const targetFileSuffix = ['.html', '.js', '.tsx']
+const targetFileSuffix = ['.html', '.js']
 
 deepMapFile(filePath, (filePath) => {
     if (!filePath) {
