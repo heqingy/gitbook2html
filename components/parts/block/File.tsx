@@ -24,7 +24,7 @@ export const RenderFile: React.FC<{
                         {
                             onHover => {
                                 return <a onClick={() => message.success('正在下载...')} style={{ color: "#FC6C04" }} download={origin_key} href={`${STATIC_PATH}${fileInfo?.path}`}>
-                                    <div style={{ border: `1px solid ${onHover ? "#FC6C04" : "#e2e9ef"}`, borderRadius: "3px", padding: "16px", display: "flex", justifyContent: "space-between" }}>
+                                    <div style={{ border: `1px solid ${onHover ? "#FC6C04" : "#e2e9ef"}`, borderRadius: "3px", padding: "16px", display: "flex", justifyContent: "space-between", margin: "32px 0", boxShadow: "rgba(116, 129, 141, 0.1) 0px 3px 8px 0px" }}>
                                         <div style={{ display: "flex", alignItems: "center", }}>
                                             <DownloadOutlined style={{ fontSize: "24px", marginRight: "16px" }} />{origin_name}
                                         </div>

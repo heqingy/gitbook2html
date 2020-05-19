@@ -38,7 +38,7 @@ func transfer(s string, char ...byte) string {
 	for i := 0; i < len(s); i++ {
 		for _, c := range char {
 			if s[i] == c {
-				s = s[:i] + "{`" + string(c) + "`}" + s[i+1:]
+				s = s[:i] + "{\"" + string(c) + "\"}" + s[i+1:]
 				i += 4
 				break
 			}

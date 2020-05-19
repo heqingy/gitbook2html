@@ -22,7 +22,8 @@ export const RenderCode: React.FC<{ type: CodeType; children: any, data?: BlockD
                             !!text && (codeContent += `${text}\n`)
                         })
                     }
-                    codeContent += child?.props?.children?.props?.children?.props?.children || ""
+                    let t = child?.props?.children?.props?.children?.props?.children
+                    codeContent += Array.isArray(t) ? t?.join?.("") : t || ""
 
                     return <React.Fragment key={idx}>
                         {title && <div style={{ fontWeight: 700, fontSize: "14px", paddingTop: "12px" }}>{title}</div>}
@@ -37,7 +38,7 @@ export const RenderCode: React.FC<{ type: CodeType; children: any, data?: BlockD
                 let codeContent = ``;
                 childs.forEach(child => {
                     const text = formatStrIndent(child?.props?.children?.props?.children)
-                    codeContent += text ? `${text}\n` : '\n'
+                    codeContent += text ? `${Array.isArray(text) ? text?.join?.('') : text}\n` : '\n'
                 })
 
                 return <CodeBlock text={codeContent} language={data?.syntax || ""} />
@@ -73,7 +74,7 @@ export const formatStrIndent = (_str: string = "") => {
     let str = _str
     let tmp = ``
     let lastForIndex = 0
-
+    console.log(_str)
     if (!str) {
         return "\t"
     }

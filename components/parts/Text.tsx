@@ -15,7 +15,7 @@ export const Text: React.SFC<Partial<{
     marks: Mark[]
     children?: any
 }>> = ({ marks = [], type, children: _children }) => {
-    const isText = typeof _children === 'string' || !_children?.find((c: any) => typeof c !== "string")
+    const isText = typeof _children === 'string' || !_children?.find?.((c: any) => typeof c !== "string")
     const isArrChildren = Array.isArray(_children)
     const children = isText ? String((isArrChildren ? _children?.join?.('') : _children) || "")?.replace(/&nbsp;/ig, '') : _children
     if (isText && !!children && !children?.replace(/\./ig, '')) return null
