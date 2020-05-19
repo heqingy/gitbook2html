@@ -6,13 +6,13 @@ import (
 )
 
 func RenderText(n *NodeTree, child string) string {
-	attrWithKey := [1]h.AttrInterfaceStruct{{
-		Key:   "key",
-		Value: n.Key,
-	}}
 	text := ""
 	if len(n.Ranges) > 0 {
 		for i := range n.Ranges {
+			attrWithKey := [1]h.AttrInterfaceStruct{{
+				Key:   "key",
+				Value: n.Key + string(i),
+			}}
 			content := n.Ranges[i].Text
 
 			if strings.ContainsAny(content, "{&}&<&>&`&\n") {
@@ -38,13 +38,13 @@ func transfer(s string, char ...byte) string {
 	for i := 0; i < len(s); i++ {
 		for _, c := range char {
 			if s[i] == c {
-				s = s[:i] + "{\"" + string(c) + "\"}" + s[i+1:]
+				s = s[:i] + "{`" + string(c) + "`}" + s[i+1:]
 				i += 4
 				break
 			}
 			if s[i] == '\n' {
 				if i == len(s)-1 {
-					s = s[:i] + "<div><br/></div>" + s[i+1:]
+					s = s[:i] + "<span style={{display: \"block\"}}><br/></span>" + s[i+1:]
 					return s
 				} else {
 					s = s[:i] + "<br/>" + s[i+1:]

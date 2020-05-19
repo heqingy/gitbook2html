@@ -52,7 +52,7 @@ const renderLinkContainer = (data?: LinkData, child?: JSX.Element) => {
         className={styles.clearPTagStyle}
         style={{
             cursor: "pointer",
-            color: "rgb(255, 209, 57)",
+            color: "rgb(252, 108, 4)",
             position: "relative",
             textDecorationLine: showUnderLine ? "underline" : undefined
         }}

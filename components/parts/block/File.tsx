@@ -23,8 +23,8 @@ export const RenderFile: React.FC<{
                     !!origin_key && <OnHover>
                         {
                             onHover => {
-                                return <a onClick={() => message.success('正在下载...')} style={{ color: "#FFD139" }} download={origin_key} href={`${STATIC_PATH}${fileInfo?.path}`}>
-                                    <div style={{ border: `1px solid ${onHover ? "#FFD139" : "#e2e9ef"}`, borderRadius: "3px", padding: "16px", display: "flex", justifyContent: "space-between" }}>
+                                return <a onClick={() => message.success('正在下载...')} style={{ color: "#FC6C04" }} download={origin_key} href={`${STATIC_PATH}${fileInfo?.path}`}>
+                                    <div style={{ border: `1px solid ${onHover ? "#FC6C04" : "#e2e9ef"}`, borderRadius: "3px", padding: "16px", display: "flex", justifyContent: "space-between" }}>
                                         <div style={{ display: "flex", alignItems: "center", }}>
                                             <DownloadOutlined style={{ fontSize: "24px", marginRight: "16px" }} />{origin_name}
                                         </div>

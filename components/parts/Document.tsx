@@ -13,11 +13,25 @@ export const Document: React.SFC<Partial<{
             <h1 style={styles.title}>{findPage(pageName, 'path')?.title || "我是固定的标题"}</h1>
             {findPage(pageName, 'path')?.description && <div style={styles.desc}>{findPage(pageName, 'path')?.description}</div>}
         </div>
-        {props.children}
+        {
+            /* check first element is not heading-1 type */
+            (() => {
+                return React.Children.map(props.children, (child: any, idx) => {
+                    if (child?.props?.type === 'heading-1' && idx === 0) {
+                        return React.cloneElement((props?.children as any)?.[0], {
+                            data: {
+                                ...child?.props?.data || {},
+                                isFirstEle: true
+                            }
+                        })
+                    } else {
+                        return child
+                    }
+                })
+            })()
+        }
     </div>
 }
-
-
 
 const styles: Record<
     'layout' | 'title' | 'desc'
@@ -34,7 +48,7 @@ const styles: Record<
         fontWeight: 700,
         lineHeight: 1.5,
         color: "#242a31",
-        marginBottom:0
+        marginBottom: 0
     },
     desc: {
         marginTop: "8px",

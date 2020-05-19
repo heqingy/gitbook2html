@@ -10,21 +10,10 @@ export const RenderCode: React.FC<{ type: CodeType; children: any, data?: BlockD
     if (type === 'code') {
         const childs: any[] = React.Children.toArray(children) || []
 
-        if (findChildType(children, 'code-line')) {
-            return (() => {
-                let codeContent = ``;
-                childs.forEach(child => {
-                    const text = formatStrIndent(child?.props?.children?.props?.children)
-                    codeContent += text ? `${text}\n` : '\n'
-                })
-
-                return <CodeBlock text={codeContent} language={data?.syntax || ""} />
-            })()
-        }
-
         if (findChildType(children, 'code-tab')) {
             return <React.Fragment>
                 {childs.map((child: any, idx) => {
+                    const title = child?.props?.data?.title
                     let codeContent = ``;
 
                     if (!!child?.props?.children?.length) {
@@ -35,9 +24,24 @@ export const RenderCode: React.FC<{ type: CodeType; children: any, data?: BlockD
                     }
                     codeContent += child?.props?.children?.props?.children?.props?.children || ""
 
-                    return <CodeBlock key={idx} text={codeContent} language={child?.props?.data?.syntax || ""} />
+                    return <React.Fragment key={idx}>
+                        {title && <div style={{ fontWeight: 700, fontSize: "14px", paddingTop: "12px" }}>{title}</div>}
+                        <CodeBlock key={idx} text={codeContent} language={child?.props?.data?.syntax || ""} />
+                    </React.Fragment>
                 })}
             </React.Fragment>
+        }
+
+        if (findChildType(children, 'code-line')) {
+            return (() => {
+                let codeContent = ``;
+                childs.forEach(child => {
+                    const text = formatStrIndent(child?.props?.children?.props?.children)
+                    codeContent += text ? `${text}\n` : '\n'
+                })
+
+                return <CodeBlock text={codeContent} language={data?.syntax || ""} />
+            })()
         }
     }
     return null
@@ -65,13 +69,20 @@ const CodeBlock: React.FC<{ text: string; language: string }> = ({ text, languag
     </div>
 }
 
-const formatStrIndent = (_str: string = "") => {
+export const formatStrIndent = (_str: string = "") => {
     let str = _str
-    if (Array.isArray(_str)) {
-        str = _str.join('')
-    }
     let tmp = ``
     let lastForIndex = 0
+
+    if (!str) {
+        return "\t"
+    }
+    if (Array.isArray(str)) {
+        str = str.join('')
+    }
+    if (!Array.isArray(str) && typeof str === 'object') {
+        str = (str as any)?.props?.children
+    }
     for (let i = 0; i < str.length; i++) {
         if (str[i] === ' ') {
             tmp += `  `
@@ -80,5 +91,6 @@ const formatStrIndent = (_str: string = "") => {
             break;
         }
     }
-    return tmp + str.slice(lastForIndex)
+
+    return tmp + (str || "")?.slice(lastForIndex)
 }

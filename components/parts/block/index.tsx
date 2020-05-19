@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HeadType, renderHead } from '@parts/block/Head.tsx';
+import { HeadType, RenderHead } from '@parts/block/Head.tsx';
 import { checkBlockType } from '@lib/checkType.ts';
 import { RenderList, ListType } from '@parts/block/List.tsx';
 import { RenderCode, CodeType } from '@parts/block/Code.tsx';
@@ -16,6 +16,9 @@ import { RenderFile, FileType } from '@parts/block/File.tsx';
 type BlockType = "paragraph"
 
 export type BlockData = {
+    // custom
+    isFirstEle?: boolean
+    // original
     checked?: boolean
     assetID?: string
     caption?: string
@@ -34,7 +37,7 @@ export const Block: React.SFC<Partial<{
 }>> = ({ type, children, data }) => {
     switch (checkBlockType(type)) {
         case 'heading':
-            return renderHead(type as HeadType, children)
+            return <RenderHead type={type as HeadType} data={data}>{children}</RenderHead>
         case 'list':
             return <RenderList type={type as ListType} data={data}>{children}</RenderList>
         case 'code':
@@ -58,7 +61,8 @@ export const Block: React.SFC<Partial<{
         case 'file':
             return <RenderFile type={type as FileType} data={data}>{children}</RenderFile>
     }
-    return <p>
+
+    return <p style={{ lineHeight: 1.625 }}>
         {children}
     </p>
 }

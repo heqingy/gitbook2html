@@ -32,8 +32,8 @@ const PageLink: React.FC<{ pageInfo?: VersionInfo; link?: string }> = ({ pageInf
     return <OnHover>
         {
             onHover => {
-                return <a style={{ color: "#FFD139" }} href={`./${pageInfo.path}.html`}>
-                    <div style={{ marginBottom:"16px",border: `1px solid ${onHover ? "#FFD139" : "#e2e9ef"}`, borderRadius: "3px", padding: "16px", display: "flex", justifyContent: "space-between" }}>
+                return <a style={{ color: "#FC6C04" }} href={`./${pageInfo.path}.html`}>
+                    <div style={{ marginBottom:"16px",border: `1px solid ${onHover ? "#FC6C04" : "#e2e9ef"}`, borderRadius: "3px", padding: "16px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ display: "flex", alignItems: "center", }}>
                             <ArrowRightOutlined style={{ fontSize: "24px", marginRight: "16px" }} />
                             {pageInfo.title}

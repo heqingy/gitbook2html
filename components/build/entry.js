@@ -1,3 +1,3 @@
 
-        module.exports = {"./source/Gitbook-Document-Example/versions/3.0/":"./source/Gitbook-Document-Example/versions/3.0/.tsx","./source/Gitbook-Document-Example/versions/3.0/modifying-a-graph-schema":"./source/Gitbook-Document-Example/versions/3.0/modifying-a-graph-schema.tsx"}
+        module.exports = {"./source/Gitbook-Document-Example/versions/2.4/":"./source/Gitbook-Document-Example/versions/2.4/.tsx","./source/Gitbook-Document-Example/versions/2.4/1-hop-atomic-pattern":"./source/Gitbook-Document-Example/versions/2.4/1-hop-atomic-pattern.tsx","./source/Gitbook-Document-Example/versions/2.4/knowledge-base-and-faqs":"./source/Gitbook-Document-Example/versions/2.4/knowledge-base-and-faqs.tsx"}
     

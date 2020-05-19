@@ -15,21 +15,22 @@ export const Text: React.SFC<Partial<{
     marks: Mark[]
     children?: any
 }>> = ({ marks = [], type, children: _children }) => {
-    const isText = typeof _children === 'string'
-    const children = isText ? String(_children)?.replace(/&nbsp;/ig, '') : _children
+    const isText = typeof _children === 'string' || !_children?.find((c: any) => typeof c !== "string")
+    const isArrChildren = Array.isArray(_children)
+    const children = isText ? String((isArrChildren ? _children?.join?.('') : _children) || "")?.replace(/&nbsp;/ig, '') : _children
     if (isText && !!children && !children?.replace(/\./ig, '')) return null
 
     return <React.Fragment>
         <Container>
-            {!!isText && (!!marks.length ? RenderMarkContainer(marks, children) : children)}
+            {!!isText && (!!marks.length ? RenderMarkContainer(marks, children) : children || "")}
         </Container>
-        {!isText && (children || <span>&nbsp;</span>)}
+        {!isText ? (children || <span>&nbsp;</span>) : ""}
     </React.Fragment>
 }
 
 function RenderMarkContainer(marks: Mark[], child?: any) {
     if (!marks.length) {
-        return child
+        return child || ""
     }
     switch (marks.shift()?.type) {
         case 'bold':
@@ -48,6 +49,8 @@ function RenderMarkContainer(marks: Mark[], child?: any) {
             return <Container className={styles.textTypeStrikethrough}>
                 {RenderMarkContainer(marks, child)}
             </Container>
+        default:
+            return null
     }
 }
 
@@ -55,7 +58,7 @@ const Container: React.FC<{
     children?: any
     className?: string
 }> = ({ children, className }) => {
-    return <span className={mergeClassName([styles.defaultStyle, className])}>{children}</span>
+    return <span className={mergeClassName([styles.defaultStyle, className])}>{children || ""}</span>
 }
 
 const styles = {
@@ -76,5 +79,7 @@ const styles = {
         padding: "3px 6px",
         borderRadius: "3px",
         margin: "0px 1px",
+        fontSize: "85% !important",
     }),
+    border: style({ border: "1px solid red" })
 }

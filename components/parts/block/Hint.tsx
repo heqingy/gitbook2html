@@ -44,8 +44,7 @@ const config: Record<HintStyle, {
 }
 
 const Layout: React.FC<{ style?: HintStyle; children?: any }> = ({ style, children }) => {
-    console.log(children,'children')
-    return <div style={{
+    return <span style={{
         margin: "32px 0px",
         backgroundColor: "rgb(245, 247, 249)",
         borderRadius: "3px",
@@ -69,8 +68,10 @@ const Layout: React.FC<{ style?: HintStyle; children?: any }> = ({ style, childr
                 <div style={{ marginRight: "8px" }}>{config[style].icon}</div>
             </React.Fragment>
         }
-        <div className={!Array.isArray(children) ? styles.clearPTagStyle : ""}>{children}</div>
-    </div>
+        <div className={!Array.isArray(children) ? styles.clearPTagStyle : ""}>
+            {children}
+        </div>
+    </span>
 }
 
 

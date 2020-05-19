@@ -139,7 +139,7 @@ const SiderItemRenderUI: React.FC<{
         border: "1px solid #E6ECF1",
         borderRight: "none",
         backgroundColor: "white",
-        color: "#FFD139"
+        color: "#FC6C04"
     } : {}
     const titleEle = <span>{title}</span>
 
