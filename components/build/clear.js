@@ -1,23 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const deepMapFile = require('./deepMapFile');
-
 const filePath = path.join(__dirname, '../source');
-const parentDir = ['/versions/']
-const targetFileSuffix = ['.html', '.js', '.tsx']
-
-deepMapFile(filePath, (filePath) => {
-    if (!filePath) {
-        return;
-    }
-    if (filePath.includes('__MACOSX')) {
+const apps = fs.readdirSync(filePath)
+apps.forEach(app => {
+    if (app.includes('__MACOSX')) {
         fs.unlinkSync(filePath)
     }
-    const fp = String(filePath)
-    const isTargetFile = !!targetFileSuffix.find(suffix => !!fp.endsWith(suffix))
-    const isTargetDir = !!parentDir.find(dirname => !!fp.includes(dirname))
-    if (!isTargetFile && isTargetDir) {
-        fs.unlinkSync(filePath)
-    }
-});
-
+    
+    const path = `./source/${app}/versions`
+    fs.existsSync(path) && fs.unlinkSync(path)
+})

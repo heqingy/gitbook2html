@@ -1,4 +1,7 @@
 export function findPage(v?: string, k?: keyof VersionInfo): VersionInfo | undefined {
+    if (!reversion) { 
+        return undefined;
+    }
     const pageRoutes = reversion.versions[versionName]?.page;
     const key = k! || "uid"
     if (!v) {

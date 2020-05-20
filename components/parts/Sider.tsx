@@ -2,6 +2,7 @@ import * as React from 'react'
 import { OnHover } from '@lib/OnHover.tsx'
 import RightOutlined from '@ant-design/icons/RightOutlined'
 import DownOutlined from '@ant-design/icons/DownOutlined'
+import { useHistory, useLocation } from 'react-router-dom'
 
 const getParentPath = (pages: Pages, targetPath: string): string | undefined => {
     for (let i = 0; i < pages?.length; i++) {
@@ -20,21 +21,22 @@ const getParentPath = (pages: Pages, targetPath: string): string | undefined => 
     }
 }
 
-const getPathList = (container: string[], targetPath?: string) => {
+const getPathList = (versionName: string, pageName: string, container: string[], targetPath?: string) => {
     const pageRoutes = reversion.versions[versionName]?.page;
     const parentPath = getParentPath(pageRoutes?.pages, targetPath || pageName)
     if (parentPath) {
         container.push(parentPath)
-        getPathList(container, parentPath)
+        getPathList(versionName, pageName, container, parentPath)
     }
 }
 
-const getPageInfo = (page: VersionInfo) => {
+const getPageInfo = (versionName: string, pageName: string, page: VersionInfo) => {
     const pathList: string[] = [pageName]
-    getPathList(pathList)
+    getPathList(versionName, pageName, pathList)
     const onSelect = pathList[0] === page?.path
     const hasChildren = !!page?.pages?.length
     const onOpen = pathList.includes(page?.path) && hasChildren
+
     return {
         onSelect,
         onOpen,
@@ -42,10 +44,11 @@ const getPageInfo = (page: VersionInfo) => {
     }
 }
 
-const formatPageRoutes = (p: VersionInfo, parentUid?: string) => {
-    const { hasChildren } = getPageInfo(p)
+const formatPageRoutes = (versionName: string, pageName: string, p: VersionInfo, parentUid?: string) => {
+    const { hasChildren } = getPageInfo(versionName, pageName, p)
+
     if (hasChildren) {
-        (p?.pages || []).forEach(page => formatPageRoutes(page, p.path))
+        (p?.pages || []).forEach(page => formatPageRoutes(versionName, pageName, page, p.path))
     }
 
     if (!!parentUid) {
@@ -53,11 +56,34 @@ const formatPageRoutes = (p: VersionInfo, parentUid?: string) => {
     }
 }
 
-formatPageRoutes(reversion.versions[versionName]?.page)
+const getVersionPage = (pathName?: string): {
+    version: string;
+    page: string;
+} | undefined => {
+    const path = pathName || location.pathname || ""
+    const args = path?.split("/").slice(-2)
+    if (args?.length === 2) {
+        const [version, page] = args
+        return {
+            version, page
+        }
+    }
+    return undefined
+}
 
 export const Sider: React.FC = ({ children }) => {
     const versionList = Object.keys(reversion.versions)
     const pageRoutes = reversion.versions[versionName]?.page;
+    const location = useLocation();
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        if (loading) {
+            formatPageRoutes(getVersionPage(location.pathname)?.version!, getVersionPage(location.pathname)?.page!, reversion.versions[getVersionPage()?.version!]?.page)
+            setLoading(false)
+        }
+    }, [loading])
+
     return <div style={{ display: "flex", flexDirection: "row" }}>
         <div style={{ minWidth: "340px", minHeight: "100vh", backgroundColor: "#F5F7F9", width: "280px", paddingTop: "50px", borderRight: "1px solid #E6ECF1" }}>
             <GroupLayoutUI title={"versions"}>
@@ -67,8 +93,8 @@ export const Sider: React.FC = ({ children }) => {
                             return <SiderItemRenderUI
                                 key={idx}
                                 title={v}
-                                path={location.pathname.split('versions/')[0] + `versions/${v}/${reversion.versions[v]?.page?.path}`}
-                                onSelect={versionName === v}
+                                path={`/${v}/${reversion.versions[v]?.page?.path}`}
+                                onSelected={getVersionPage(location.pathname)?.version === v}
                             />
                         })
                     }
@@ -76,7 +102,7 @@ export const Sider: React.FC = ({ children }) => {
             </GroupLayoutUI>
             {/* document index */}
             <IndentLayout>
-                <SiderItemRenderUI title={pageRoutes?.title} path={pageRoutes?.path} onSelect={getPageInfo(pageRoutes)?.onSelect} />
+                <SiderItemRenderUI title={pageRoutes?.title} path={`/${pageRoutes?.path}`} />
             </IndentLayout>
             {renderSider(pageRoutes?.pages)}
         </div>
@@ -115,10 +141,12 @@ const GroupLayoutUI: React.FC<{ title: string; style?: React.CSSProperties }> = 
 }
 
 const SiderItem: React.FC<{ page: VersionInfo, itemStyle?: React.CSSProperties }> = ({ page, itemStyle = {} }) => {
+    const location = useLocation();
+    const pageInfo = getPageInfo(getVersionPage(location.pathname)?.version!, getVersionPage(location.pathname)?.page!, page) || {}
     return <div>
-        <SiderItemRenderUI title={page?.title} path={page?.path} itemStyle={itemStyle} {...getPageInfo(page)} />
+        <SiderItemRenderUI title={page?.title} path={page?.path} itemStyle={itemStyle} {...pageInfo} />
         {
-            getPageInfo(page)?.onOpen && <IndentLayout style={{ paddingTop: 0 }}>
+            pageInfo?.onOpen && <IndentLayout style={{ paddingTop: 0 }}>
                 <div style={{ borderLeft: "1px solid rgb(230, 236, 241)" }}>
                     {renderSider(page.pages, true)}
                 </div>
@@ -131,19 +159,45 @@ const SiderItemRenderUI: React.FC<{
     title: string;
     path: string;
     itemStyle?: React.CSSProperties;
-    onSelect?: boolean;
     hasChildren?: boolean;
     onOpen?: boolean;
-}> = ({ title, path, onSelect, hasChildren, onOpen, itemStyle = {} }) => {
-    const onSelectStyle: React.CSSProperties = onSelect ? {
+    onSelected?: boolean;
+}> = ({ title, path = "", onSelected: _onSelected, hasChildren, onOpen, itemStyle = {} }) => {
+    const history = useHistory();
+    const location = useLocation();
+
+    const targetPath = () => {
+        if (!path) {
+            return ""
+        }
+        const targetPathArgs = (path?.split("/") || []).filter(p => !!p)
+        if (targetPathArgs.length === 1) {
+            const basePath = (location.pathname?.split("/") || []).slice(0, -1).join("/")
+            const [page] = targetPathArgs
+            return `${basePath}/${page}`
+        }
+        if (targetPathArgs.length === 2) {
+            const basePath = (location.pathname?.split("/") || []).slice(0, -2).join("/")
+            const [version, page] = targetPathArgs
+            return `${basePath}/${version}/${page}`
+        }
+        return ""
+    }
+
+    const onSelect = location.pathname === targetPath()
+
+    const onSelectStyle: React.CSSProperties = (_onSelected || onSelect) ? {
         border: "1px solid #E6ECF1",
         borderRight: "none",
         backgroundColor: "white",
         color: "#FC6C04"
     } : {}
-    const titleEle = <span>{title}</span>
 
-    return <OnHover onPress={() => location.assign(`${path}.html`)}>
+
+    return <OnHover onPress={() => {
+        const p = targetPath()
+        !!p && history.push(p)
+    }}>
         {onHover => {
             return <div style={{
                 cursor: "pointer",

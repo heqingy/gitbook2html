@@ -1,6 +1,7 @@
 const path = require('path')
-const entry = require('./build/entry')
+const entry = require('./build/entry_v2')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     devtool: 'none',
@@ -13,6 +14,10 @@ module.exports = {
     plugins: [
         new webpack.DefinePlugin({
             STATIC_PATH: JSON.stringify('../../..')
+        }),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, 'source/Gitbook-Document-Example/index.html'),
+            filename: '[name].html'
         })
     ],
     module: {
@@ -23,9 +28,9 @@ module.exports = {
                     {
                         loader: 'ts-loader',
                         options: {
-                          transpileOnly: true
+                            transpileOnly: true
                         }
-                      }
+                    }
                 ],
             },
             {
@@ -52,6 +57,6 @@ module.exports = {
             '@build': path.resolve(__dirname, 'build'),
             '@styles': path.resolve(__dirname, 'styles'),
         },
-        extensions: ['.ts', '.tsx', '.js', '.css']
+        extensions: ['.ts', '.tsx', '.js', '.css', '.json']
     }
 }

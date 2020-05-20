@@ -1,7 +1,6 @@
 const path = require('path')
 const entry = require('./build/entry')
 const OpenBrowserPlugin = require('open-browser-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack')
 
 module.exports = {
@@ -53,6 +52,9 @@ module.exports = {
         "react": "React",
         "react-dom": "ReactDOM",
     },
+    optimization: {
+        minimize: false
+    },
     resolve: {
         alias: {
             '@parts': path.resolve(__dirname, 'parts'),
@@ -60,6 +62,6 @@ module.exports = {
             '@build': path.resolve(__dirname, 'build'),
             '@styles': path.resolve(__dirname, 'styles'),
         },
-        extensions: ['.ts', '.tsx', '.js', '.css']
+        extensions: ['.ts', '.tsx', '.js', '.css', '.json']
     }
 }

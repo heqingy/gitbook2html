@@ -11,6 +11,7 @@ declare const antd: any;
 declare const reversion: ReVersion;
 declare module 'react-katex';
 declare module '*.css';
+declare module '*.json';
 declare module '@lib/codeBlock/index.js';
 declare module '@lib/syntaxHighhligter/index.js';
 

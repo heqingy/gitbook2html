@@ -5,6 +5,7 @@ const deepMapFile = require('./deepMapFile');
 const sourcePath = path.join(__dirname, '../source')
 const buildPath = path.join(__dirname, '../build')
 const asssetsPath = path.join(__dirname, '../../dist')
+const excludeFiles = ['.DS_Store', '.DS_Store']
 const tsxFilePath = []
 
 function getAllTsxFile(dirPath, callback) {
@@ -33,6 +34,20 @@ function getAllTsxFile(dirPath, callback) {
     })
 }
 
+function makeEntry_v2() {
+    const entry = {};
+    fs.readdirSync(sourcePath).forEach(app => {
+        if (excludeFiles.includes(app)) {
+            return;
+        }
+        const basePath = `./source/${app}`
+        entry[`${basePath}/bundle`] = `${basePath}/_appRoute.tsx`
+    })
+    fs.writeFileSync(`${buildPath}/entry_v2.js`, `
+        module.exports = ${JSON.stringify(entry)}
+    `);
+}
+
 function makeEntry(tsxFilePath) {
     const entry = {};
     (tsxFilePath || []).forEach(path => {
@@ -46,22 +61,15 @@ function makeEntry(tsxFilePath) {
 
 function makeAssetsPath() {
     const pathJson = {};
-    const excludeFiles = ['.DS_Store', '.DS_Store']
+    
     deepMapFile(path.join(__dirname, '../source'), (filePath, filename) => {
         if (!filePath || excludeFiles.includes(filename)) {
             return;
         }
 
         if (filename === 'revision.json') {
-            const projectVersionDirPath = String(filePath).replace(filename, 'versions')
-            const versionDirs = fs.readdirSync(projectVersionDirPath)
-            versionDirs.forEach(versionDirName => {
-                const versionPath = `${projectVersionDirPath}/${versionDirName}`
-                if (!excludeFiles.includes(versionDirName)) {
-                    // write version info to version dir
-                    fs.writeFileSync(`${versionPath}/reversion.js`, `const reversion = ${JSON.stringify(require(filePath))}`);
-                }
-            });
+            const projectVersionDirPath = String(filePath).replace(filename, '')
+            fs.writeFileSync(`${projectVersionDirPath}/reversion.js`, `const reversion = ${JSON.stringify(require(filePath))}`);
         }
 
         const fp = String(filePath).replace(path.join(__dirname, '../source'), "")
@@ -82,4 +90,5 @@ function makeAssetsPath() {
 getAllTsxFile(sourcePath, () => {
     makeEntry(tsxFilePath)
     makeAssetsPath()
+    makeEntry_v2()
 })
