@@ -1,5 +1,5 @@
 const path = require('path')
-const entry = require('./build/entry_v2')
+const entry = require('./build/entry')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -14,10 +14,6 @@ module.exports = {
     plugins: [
         new webpack.DefinePlugin({
             STATIC_PATH: JSON.stringify('../../..')
-        }),
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'source/Gitbook-Document-Example/index.html'),
-            filename: '[name].html'
         })
     ],
     module: {

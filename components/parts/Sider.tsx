@@ -56,7 +56,7 @@ const formatPageRoutes = (versionName: string, pageName: string, p: VersionInfo,
     }
 }
 
-const getVersionPage = (pathName?: string): {
+export const getVersionPage = (pathName?: string): {
     version: string;
     page: string;
 } | undefined => {
@@ -73,8 +73,9 @@ const getVersionPage = (pathName?: string): {
 
 export const Sider: React.FC = ({ children }) => {
     const versionList = Object.keys(reversion.versions)
-    const pageRoutes = reversion.versions[versionName]?.page;
     const location = useLocation();
+    const versionName = getVersionPage(location.pathname)?.version!
+    const pageRoutes = reversion.versions[versionName]?.page;
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {

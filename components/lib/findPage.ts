@@ -1,5 +1,5 @@
-export function findPage(v?: string, k?: keyof VersionInfo): VersionInfo | undefined {
-    if (!reversion) { 
+export function findPage(v: string, versionName: string, k?: keyof VersionInfo): VersionInfo | undefined {
+    if (!reversion) {
         return undefined;
     }
     const pageRoutes = reversion.versions[versionName]?.page;

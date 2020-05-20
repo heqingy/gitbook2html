@@ -4,37 +4,11 @@ const deepMapFile = require('./deepMapFile');
 
 const sourcePath = path.join(__dirname, '../source')
 const buildPath = path.join(__dirname, '../build')
+const modulesPath = path.join(__dirname, '../modules')
 const asssetsPath = path.join(__dirname, '../../dist')
 const excludeFiles = ['.DS_Store', '.DS_Store']
-const tsxFilePath = []
 
-function getAllTsxFile(dirPath, callback) {
-    fs.readdir(dirPath, function (err, files) {
-        var count = 0
-        var checkEnd = function () {
-            ++count == files.length && callback()
-        }
-        files.forEach(filename => {
-            var fullPath = `${dirPath}/${filename}`
-            fs.stat(fullPath, (_, stats) => {
-                if (stats.isDirectory()) {
-                    return getAllTsxFile(fullPath, checkEnd)
-                } else {
-                    if (fullPath.endsWith('.tsx')) {
-                        const __dir = __dirname.split('/')
-                        tsxFilePath.push(fullPath.replace(__dir.slice(0, __dir.length - 1).join("/"), "."))
-                    }
-                    checkEnd()
-                }
-            })
-
-        })
-        //为空时直接回调
-        files.length === 0 && callback()
-    })
-}
-
-function makeEntry_v2() {
+function makeEntry() {
     const entry = {};
     fs.readdirSync(sourcePath).forEach(app => {
         if (excludeFiles.includes(app)) {
@@ -43,17 +17,6 @@ function makeEntry_v2() {
         const basePath = `./source/${app}`
         entry[`${basePath}/bundle`] = `${basePath}/_appRoute.tsx`
     })
-    fs.writeFileSync(`${buildPath}/entry_v2.js`, `
-        module.exports = ${JSON.stringify(entry)}
-    `);
-}
-
-function makeEntry(tsxFilePath) {
-    const entry = {};
-    (tsxFilePath || []).forEach(path => {
-        entry[path.replace(".tsx", "")] = path
-    })
-
     fs.writeFileSync(`${buildPath}/entry.js`, `
         module.exports = ${JSON.stringify(entry)}
     `);
@@ -61,7 +24,7 @@ function makeEntry(tsxFilePath) {
 
 function makeAssetsPath() {
     const pathJson = {};
-    
+
     deepMapFile(path.join(__dirname, '../source'), (filePath, filename) => {
         if (!filePath || excludeFiles.includes(filename)) {
             return;
@@ -87,8 +50,16 @@ function makeAssetsPath() {
     });
 }
 
-getAllTsxFile(sourcePath, () => {
-    makeEntry(tsxFilePath)
-    makeAssetsPath()
-    makeEntry_v2()
-})
+function makeHtmlTemplate() {
+    const apps = fs.readdirSync(sourcePath)
+    apps.forEach(app => {
+        if (!excludeFiles.includes(app)) {
+            const destPath = `${sourcePath}/${app}`
+            fs.renameSync(`${destPath}/modules/index.html`, `${destPath}/index.html`);
+        }
+    })
+}
+
+makeAssetsPath()
+makeEntry()
+makeHtmlTemplate()

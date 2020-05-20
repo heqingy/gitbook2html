@@ -7,7 +7,9 @@ rm -rf ./source/*
 mv ./dist/* ./components/source
 pushd "./components" > /dev/null
 node build/build.js
+node build/makeSpaRoutes.js
 yarn build-prod
 node build/clear.js
 popd > /dev/null
 mv ./components/source/* ./dist
+echo "Build Success!!!"

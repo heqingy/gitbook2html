@@ -12,9 +12,9 @@ module.exports = {
         filename: "[name].js"
     },
     plugins: [
-        new OpenBrowserPlugin({ url: "http://localhost:8080/test/index.html" }),
+        new OpenBrowserPlugin({ url: "http://localhost:8080/source/Gitbook-Document-Example" }),
         new webpack.DefinePlugin({
-            STATIC_PATH: "''"
+            STATIC_PATH: "'/source'"
         })
     ],
     devServer: {
@@ -22,6 +22,7 @@ module.exports = {
             __dirname,
             path.resolve(__dirname, '../dist'),
         ],
+        historyApiFallback: true
     },
     module: {
         rules: [
