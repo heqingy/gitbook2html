@@ -74,7 +74,6 @@ export const formatStrIndent = (_str: string = "") => {
     let str = _str
     let tmp = ``
     let lastForIndex = 0
-    console.log(_str)
     if (!str) {
         return "\t"
     }

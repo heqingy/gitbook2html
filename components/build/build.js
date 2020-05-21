@@ -4,41 +4,19 @@ const deepMapFile = require('./deepMapFile');
 
 const sourcePath = path.join(__dirname, '../source')
 const buildPath = path.join(__dirname, '../build')
+const modulesPath = path.join(__dirname, '../modules')
 const asssetsPath = path.join(__dirname, '../../dist')
-const tsxFilePath = []
+const excludeFiles = ['.DS_Store', '.DS_Store']
 
-function getAllTsxFile(dirPath, callback) {
-    fs.readdir(dirPath, function (err, files) {
-        var count = 0
-        var checkEnd = function () {
-            ++count == files.length && callback()
-        }
-        files.forEach(filename => {
-            var fullPath = `${dirPath}/${filename}`
-            fs.stat(fullPath, (_, stats) => {
-                if (stats.isDirectory()) {
-                    return getAllTsxFile(fullPath, checkEnd)
-                } else {
-                    if (fullPath.endsWith('.tsx')) {
-                        const __dir = __dirname.split('/')
-                        tsxFilePath.push(fullPath.replace(__dir.slice(0, __dir.length - 1).join("/"), "."))
-                    }
-                    checkEnd()
-                }
-            })
-
-        })
-        //为空时直接回调
-        files.length === 0 && callback()
-    })
-}
-
-function makeEntry(tsxFilePath) {
+function makeEntry() {
     const entry = {};
-    (tsxFilePath || []).forEach(path => {
-        entry[path.replace(".tsx", "")] = path
+    fs.readdirSync(sourcePath).forEach(app => {
+        if (excludeFiles.includes(app)) {
+            return;
+        }
+        const basePath = `./source/${app}`
+        entry[`${basePath}/bundle`] = `${basePath}/_appRoute.tsx`
     })
-
     fs.writeFileSync(`${buildPath}/entry.js`, `
         module.exports = ${JSON.stringify(entry)}
     `);
@@ -46,22 +24,15 @@ function makeEntry(tsxFilePath) {
 
 function makeAssetsPath() {
     const pathJson = {};
-    const excludeFiles = ['.DS_Store', '.DS_Store']
+
     deepMapFile(path.join(__dirname, '../source'), (filePath, filename) => {
         if (!filePath || excludeFiles.includes(filename)) {
             return;
         }
 
         if (filename === 'revision.json') {
-            const projectVersionDirPath = String(filePath).replace(filename, 'versions')
-            const versionDirs = fs.readdirSync(projectVersionDirPath)
-            versionDirs.forEach(versionDirName => {
-                const versionPath = `${projectVersionDirPath}/${versionDirName}`
-                if (!excludeFiles.includes(versionDirName)) {
-                    // write version info to version dir
-                    fs.writeFileSync(`${versionPath}/reversion.js`, `const reversion = ${JSON.stringify(require(filePath))}`);
-                }
-            });
+            const projectVersionDirPath = String(filePath).replace(filename, '')
+            fs.writeFileSync(`${projectVersionDirPath}/reversion.js`, `const reversion = ${JSON.stringify(require(filePath))}`);
         }
 
         const fp = String(filePath).replace(path.join(__dirname, '../source'), "")
@@ -79,7 +50,62 @@ function makeAssetsPath() {
     });
 }
 
-getAllTsxFile(sourcePath, () => {
-    makeEntry(tsxFilePath)
-    makeAssetsPath()
-})
+function makeHtmlTemplate() {
+    const template = (basePath) => `
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/modules/Antd.css" />
+        <link rel="stylesheet" type="text/css" href="/modules/katex.min.css" />
+        <script type="text/javascript" src="/modules/React.js"></script>
+        <script type="text/javascript" src="/modules/ReactDOM.js"></script>
+        <script type="text/javascript" src="/modules/Antd.js"></script>
+        
+        
+        <style>
+            html,
+            body {
+                color: #242A31;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                font-size: 15px;
+                box-sizing: border-box;
+                font-family: "Roboto", sans-serif;
+                line-height: 1em;
+                font-smoothing: antialiased;
+                text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                -webkit-text-size-adjust: 100%;
+            }
+        </style>
+        <title>Document</title>
+    </head>
+    
+    <body>
+        <div id='root'></div>
+        
+        <script type="text/javascript" src='${basePath}/reversion.js'></script>
+        <script type="text/javascript" src='${basePath}/bundle.js'></script>
+    </body>
+    
+    </html>
+    `
+    const apps = fs.readdirSync(sourcePath)
+    apps.forEach(app => {
+        if (!excludeFiles.includes(app)) {
+            const destPath = `${sourcePath}/${app}`
+            fs.writeFileSync(`${destPath}/index.html`, template(`/source/${app}`))
+        }
+    })
+}
+
+makeAssetsPath()
+makeEntry()
+makeHtmlTemplate()

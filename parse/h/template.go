@@ -63,8 +63,6 @@ func RenderTsxTemplate(dom string) string {
 	import { Inline } from '@parts/Inline.tsx';
 	import { Sider } from '@parts/Sider.tsx';
 
-	const SOURCE_ELEMENT = <Sider>` + dom + `</Sider>
-
-	ReactDom.render(SOURCE_ELEMENT, document.getElementById('app'));
+	export default () => <Sider>` + dom + `</Sider>
 	`
 }

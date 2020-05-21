@@ -1,17 +1,22 @@
 import * as React from 'react';
 import { findPage } from '@lib/findPage.ts'
+import { useLocation } from 'react-router';
+import { getVersionPage } from '@parts/Sider';
 
 export const Document: React.SFC<Partial<{
     type: string
 }>> = props => {
+    const location = useLocation();
+    const pageName = getVersionPage(location.pathname)?.page!
+    const versionName = getVersionPage(location.pathname)?.version!
     React.useEffect(() => {
         document.body.style.fontFamily = "Content-font, Roboto, sans-serif"
         document.body.style.color = "#3b454e"
     }, [])
     return <div style={styles.layout}>
         <div style={{ marginBottom: "32px", padding: "40px 0", borderBottom: "2px solid rgb(230, 236, 241)" }}>
-            <h1 style={styles.title}>{findPage(pageName, 'path')?.title || "我是固定的标题"}</h1>
-            {findPage(pageName, 'path')?.description && <div style={styles.desc}>{findPage(pageName, 'path')?.description}</div>}
+            <h1 style={styles.title}>{findPage(pageName, versionName, 'path')?.title || "我是固定的标题"}</h1>
+            {findPage(pageName, versionName, 'path')?.description && <div style={styles.desc}>{findPage(pageName, versionName, 'path')?.description}</div>}
         </div>
         {
             /* check first element is not heading-1 type */

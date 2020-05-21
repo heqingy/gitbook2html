@@ -1,7 +1,6 @@
 const path = require('path')
 const entry = require('./build/entry')
 const OpenBrowserPlugin = require('open-browser-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack')
 
 module.exports = {
@@ -13,9 +12,9 @@ module.exports = {
         filename: "[name].js"
     },
     plugins: [
-        new OpenBrowserPlugin({ url: "http://localhost:8080/test/index.html" }),
+        new OpenBrowserPlugin({ url: "http://localhost:8080/source/Gitbook-Document-Example" }),
         new webpack.DefinePlugin({
-            STATIC_PATH: "''"
+            STATIC_PATH: "'/source'"
         })
     ],
     devServer: {
@@ -23,6 +22,9 @@ module.exports = {
             __dirname,
             path.resolve(__dirname, '../dist'),
         ],
+        historyApiFallback:{
+            index:'/source/Gitbook-Document-Example/index.html'
+        },
     },
     module: {
         rules: [
@@ -53,6 +55,9 @@ module.exports = {
         "react": "React",
         "react-dom": "ReactDOM",
     },
+    optimization: {
+        minimize: false
+    },
     resolve: {
         alias: {
             '@parts': path.resolve(__dirname, 'parts'),
@@ -60,6 +65,6 @@ module.exports = {
             '@build': path.resolve(__dirname, 'build'),
             '@styles': path.resolve(__dirname, 'styles'),
         },
-        extensions: ['.ts', '.tsx', '.js', '.css']
+        extensions: ['.ts', '.tsx', '.js', '.css', '.json']
     }
 }

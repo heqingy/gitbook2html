@@ -1,23 +1,41 @@
 const fs = require('fs');
 const path = require('path');
-const deepMapFile = require('./deepMapFile');
-
 const filePath = path.join(__dirname, '../source');
-const parentDir = ['/versions/']
-const targetFileSuffix = ['.html', '.js', '.tsx']
+const apps = fs.readdirSync(filePath)
+const excludeFiles = ['.DS_Store', '.DS_Store']
 
-deepMapFile(filePath, (filePath) => {
-    if (!filePath) {
+function rmdir(filePath, callback) {
+    fs.stat(filePath, function (err, stat) {
+        if (err) return console.log(err)
+        if (stat.isFile()) {
+            fs.unlink(filePath, callback)
+        } else {
+            fs.readdir(filePath, function (err, data) {
+                if (err) return console.log(err)
+                let dirs = data.map(dir => path.join(filePath, dir))
+                let index = 0
+                !(function next() {
+                    if (index === dirs.length) {
+                        fs.rmdir(filePath, callback)
+                    } else {
+                        rmdir(dirs[index++], next)
+                    }
+                })()
+            })
+        }
+    })
+}
+
+
+apps.forEach(app => {
+    if (excludeFiles.includes(app)) {
+        fs.unlinkSync(`${filePath}/${app}`)
         return;
     }
-    if (filePath.includes('__MACOSX')) {
-        fs.unlinkSync(filePath)
-    }
-    const fp = String(filePath)
-    const isTargetFile = !!targetFileSuffix.find(suffix => !!fp.endsWith(suffix))
-    const isTargetDir = !!parentDir.find(dirname => !!fp.includes(dirname))
-    if (!isTargetFile && isTargetDir) {
-        fs.unlinkSync(filePath)
-    }
-});
 
+    const versionPath = `${filePath}/${app}/versions`
+    const appRootPath = `${filePath}/${app}/_appRoute.tsx`
+    
+    fs.existsSync(versionPath) && rmdir(versionPath, () => { })
+    fs.existsSync(appRootPath) && fs.unlinkSync(appRootPath)
+})
