@@ -12,7 +12,7 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            STATIC_PATH: JSON.stringify('')
+            STATIC_PATH: JSON.stringify('/source')
         })
     ],
     module: {
@@ -23,9 +23,9 @@ module.exports = {
                     {
                         loader: 'ts-loader',
                         options: {
-                          transpileOnly: true
+                            transpileOnly: true
                         }
-                      }
+                    }
                 ],
             },
             {
@@ -41,9 +41,6 @@ module.exports = {
     externals: {
         "react": "React",
         "react-dom": "ReactDOM",
-    },
-    optimization: {
-        minimize: false
     },
     resolve: {
         alias: {

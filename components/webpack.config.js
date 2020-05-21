@@ -1,7 +1,6 @@
 const path = require('path')
 const entry = require('./build/entry')
 const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     devtool: 'none',
@@ -13,8 +12,8 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            STATIC_PATH: JSON.stringify('../../..')
-        })
+            STATIC_PATH: JSON.stringify('/source')
+        }),
     ],
     module: {
         rules: [

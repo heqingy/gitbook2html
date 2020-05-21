@@ -44,8 +44,8 @@ const makeAppRoot = (app, appFullPath) => {
     const content = `
 	import * as React from 'react'
 	import * as ReactDom from 'react-dom'
-    import { Route, Redirect } from 'react-router';
-    import { BrowserRouter, Link } from 'react-router-dom';
+    import { Route, Redirect, Switch } from 'react-router';
+    import { BrowserRouter } from 'react-router-dom';
     ${versionList.map(v => v.importPath).join('\n')}
     const reversion = require('./revision.json');
     (window as any)['reversion'] = reversion;
@@ -53,14 +53,13 @@ const makeAppRoot = (app, appFullPath) => {
 	// versions
     const App = () => {
         const app = "${app}";
-        const baseTargetPath = location.pathname.split('/').slice(0, -1).join('/');
 
-        return <div>
-          <BrowserRouter>
-            ${versionList.map(v => `<Route path={\`\$\{baseTargetPath\}/${v.version}\`} component={${v.component}} />`).join('\n')}
-            <Redirect to={\`\$\{baseTargetPath\}/${versionList[0].version}\`}/>
-          </BrowserRouter>
-        </div>;
+        return <BrowserRouter basename={\`\/source/\$\{app\}\`}>
+            <Switch>
+                ${versionList.map(v => `<Route path={\`/${v.version}\`} component={${v.component}} />`).join('\n')}
+                <Redirect to={\`/${versionList[0].version}\`}/>
+            </Switch>
+        </BrowserRouter>
     }
 
     ReactDom.render(<App />, document.getElementById('root'));
@@ -81,14 +80,14 @@ const makeVersionRoot = (verison, verisonPath) => {
 
     const content = `
 	import * as React from 'react'
-    import { Route, withRouter, Redirect } from 'react-router';
+    import { Route, withRouter, Redirect, Switch } from 'react-router';
     ${pagesList.map(v => v.importPath).join('\n')}
 
     export default withRouter(props => {
-        return <div>
+        return <Switch>
             ${pagesList.map(p => `<Route path={\`\$\{props.match.url\}/${p.page}\`} exact component={${p.component}} />`).join('\n')}
             <Redirect to={\`\$\{props.match.url\}/master\`\}/>
-        </div>
+        </Switch>
     })
     `
 

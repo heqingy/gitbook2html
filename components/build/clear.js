@@ -34,6 +34,8 @@ apps.forEach(app => {
     }
 
     const versionPath = `${filePath}/${app}/versions`
-
+    const appRootPath = `${filePath}/${app}/_appRoute.tsx`
+    
     fs.existsSync(versionPath) && rmdir(versionPath, () => { })
+    fs.existsSync(appRootPath) && fs.unlinkSync(appRootPath)
 })

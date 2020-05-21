@@ -10,6 +10,5 @@ node build/build.js
 node build/makeSpaRoutes.js
 yarn build-prod
 node build/clear.js
+node build/server.js
 popd > /dev/null
-mv ./components/source/* ./dist
-echo "Build Success!!!"

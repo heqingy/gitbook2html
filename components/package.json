@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npx webpack-dev-server --config webpack.dev.config.js --progress --colors",
     "build": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --progress --colors",
-    "build-prod": "node node_modules/webpack/bin/webpack.js --config webpack.prod.config.js --progress --colors"
+    "build-prod": "NODE_ENV=production npm_config_report=true node --max_old_space_size=4096  node_modules/webpack/bin/webpack.js --config webpack.prod.config.js --progress --colors"
   },
   "dependencies": {
     "@ant-design/icons": "^4.1.0",
@@ -21,7 +21,6 @@
     "css-loader": "^3.5.3",
     "express": "^4.17.1",
     "file-loader": "^6.0.0",
-    "html-webpack-plugin": "^4.3.0",
     "open-browser-webpack-plugin": "^0.0.5",
     "react": "^16.13.1",
     "react-code-blocks": "^0.0.7",
