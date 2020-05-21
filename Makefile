@@ -4,6 +4,7 @@ init:
 	mkdir zip; \
 	pushd "./components" > /dev/null; \
 	mkdir source; \
+	yarn; \
 	popd > /dev/null; \
 
 prod:
