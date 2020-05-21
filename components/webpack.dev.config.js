@@ -22,7 +22,9 @@ module.exports = {
             __dirname,
             path.resolve(__dirname, '../dist'),
         ],
-        historyApiFallback: true
+        historyApiFallback:{
+            index:'/source/Gitbook-Document-Example/index.html'
+        },
     },
     module: {
         rules: [

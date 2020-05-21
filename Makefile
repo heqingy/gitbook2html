@@ -1,8 +1,5 @@
-build:
-	sh build.sh; \
-
-run:
-	sh build-prod.sh; \
+prod:
+	sh prod.sh; \
 
 dev:
 	sh dev.sh; \

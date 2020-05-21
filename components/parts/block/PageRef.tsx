@@ -3,7 +3,7 @@ import { BlockData } from '.'
 import { OnHover } from '@lib/OnHover.tsx'
 import { findPage } from '@lib/findPage.ts'
 import ArrowRightOutlined from '@ant-design/icons/ArrowRightOutlined'
-import { useLocation } from 'react-router'
+import { useLocation, useHistory } from 'react-router'
 import { getVersionPage } from '@parts/Sider'
 const { message } = antd
 
@@ -28,6 +28,7 @@ export const RenderPageRef: React.FC<{
 }
 
 const PageLink: React.FC<{ pageInfo?: VersionInfo; link?: string }> = ({ pageInfo, link }) => {
+    const history = useHistory();
     if (!pageInfo) {
         return <div>
             error ref:{link}
@@ -36,7 +37,7 @@ const PageLink: React.FC<{ pageInfo?: VersionInfo; link?: string }> = ({ pageInf
     return <OnHover>
         {
             onHover => {
-                return <a style={{ color: "#FC6C04" }} href={`./${pageInfo.path}.html`}>
+                return <a style={{ color: "#FC6C04" }} onClick={() => history.push(pageInfo.path)}>
                     <div style={{ marginBottom: "16px", border: `1px solid ${onHover ? "#FC6C04" : "#e2e9ef"}`, borderRadius: "3px", padding: "16px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ display: "flex", alignItems: "center", }}>
                             <ArrowRightOutlined style={{ fontSize: "24px", marginRight: "16px" }} />
