@@ -2,8 +2,10 @@
 
 ## How to use？
 
-Place the target zip file into the zip directory
+1. run `make init`
 
-### make run
+2. Place the target zip file into the zip directory
 
-### make dev
+`make run` localhost:8080/source/[project]
+
+`make dev` 
