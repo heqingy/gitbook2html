@@ -43,7 +43,7 @@ func transfer(s string, char ...byte) string {
 				break
 			}
 			if s[i] == '\n' {
-				if i == len(s)-1 {
+				if i == len(s)-1 && s != string('\n') {
 					s = s[:i] + "<span style={{display: \"block\"}}><br/></span>" + s[i+1:]
 					return s
 				} else {

@@ -25,7 +25,6 @@ export const Text: React.SFC<Partial<{
         <Container>
             {!!isText && (!!marks.length ? RenderMarkContainer(marks, children) : children || "")}
         </Container>
-        {/* <span>&nbsp;</span> */}
         {!isText && children || ""}
     </React.Fragment>
 }

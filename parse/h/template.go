@@ -8,6 +8,7 @@ func RenderHTMLTemplate(bundleName string, versionName string) string {
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" type="text/css" href="../../modules/Antd.css" />
 		<link rel="stylesheet" type="text/css" href="../../modules/katex.min.css" />
 		<script type="text/javascript" src="../../modules/React.js"></script>
@@ -62,7 +63,8 @@ func RenderTsxTemplate(dom string) string {
 	import { Text } from '@parts/Text.tsx';
 	import { Inline } from '@parts/Inline.tsx';
 	import { Sider } from '@parts/Sider.tsx';
+	import { Header } from '@parts/Header.tsx';
 
-	export default () => <Sider>` + dom + `</Sider>
+	export default () => <Header><Sider>` + dom + `</Sider></Header>
 	`
 }

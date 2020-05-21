@@ -86,7 +86,7 @@ export const Sider: React.FC = ({ children }) => {
     }, [loading])
 
     return <div style={{ display: "flex", flexDirection: "row" }}>
-        <div style={{ minWidth: "340px", minHeight: "100vh", backgroundColor: "#F5F7F9", width: "280px", paddingTop: "50px", borderRight: "1px solid #E6ECF1" }}>
+        <div style={{ minWidth: "340px", minHeight: "100vh", backgroundColor: "#F5F7F9", width: "280px", paddingTop: "20px", borderRight: "1px solid #E6ECF1" }}>
             <GroupLayoutUI title={"versions"}>
                 <IndentLayout>
                     {

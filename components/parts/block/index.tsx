@@ -62,7 +62,10 @@ export const Block: React.SFC<Partial<{
             return <RenderFile type={type as FileType} data={data}>{children}</RenderFile>
     }
 
+
+    const containsLinkEle = type === 'paragraph' && !!React.Children.toArray(children).find((child: any) => child?.props?.type === 'link')
+
     return <p style={{ lineHeight: 1.625 }}>
-        {children}
+        {children}{containsLinkEle && <br />}
     </p>
 }
