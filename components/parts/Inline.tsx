@@ -2,7 +2,7 @@ import * as React from 'react';
 import { style } from 'typestyle'
 import { findPage } from '@lib/findPage';
 import { InlineMath } from 'react-katex';
-import { useLocation } from 'react-router';
+import { useLocation, useHistory } from 'react-router';
 import { getVersionPage } from './Sider';
 
 interface LinkData {
@@ -49,6 +49,7 @@ export const Inline: React.SFC<LinkType<Partial<{
 const renderLinkContainer = (data?: LinkData, child?: JSX.Element) => {
     const [showUnderLine, setShowUnderLine] = React.useState(false)
     const location = useLocation();
+    const history = useHistory();
     const versionName = getVersionPage(location.pathname)?.version!
     return <span
         onMouseEnter={e => setShowUnderLine(true)}
@@ -63,7 +64,7 @@ const renderLinkContainer = (data?: LinkData, child?: JSX.Element) => {
         onClick={() => {
             const pageInfo = findPage(data?.pageID!,versionName)
             if (!!data?.pageID && !data?.href && !!pageInfo) {
-                window.location.assign(`./${pageInfo.path}.html`)
+                !!pageInfo.path && history.push(pageInfo.path)
                 return;
             }
             window.open(data?.href)
