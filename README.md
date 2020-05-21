@@ -1,5 +1,9 @@
-# How to use
+> You can use this complier from gitbook_v2 json conver to single page application.  
 
-## make build (generate project)
+## How to use？
 
-## make run test (execute the test case)
+Place the target zip file into the zip directory
+
+### make run
+
+### make dev
