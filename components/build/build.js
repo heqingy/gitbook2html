@@ -31,8 +31,9 @@ function makeAssetsPath() {
         }
 
         if (filename === 'revision.json') {
-            const projectVersionDirPath = String(filePath).replace(filename, '')
-            fs.writeFileSync(`${projectVersionDirPath}/reversion.js`, `const reversion = ${JSON.stringify(require(filePath))}`);
+            const projectVersionDirPath = String(filePath).replace(filename, '');
+            const reversionJSON = require(filePath);
+            fs.writeFileSync(`${projectVersionDirPath}/reversion.js`, `const reversion = ${JSON.stringify(reversionJSON)}`);
         }
 
         const fp = String(filePath).replace(path.join(__dirname, '../source'), "")

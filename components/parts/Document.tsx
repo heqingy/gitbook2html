@@ -7,7 +7,7 @@ export const Document: React.SFC<Partial<{
     type: string
 }>> = props => {
     const location = useLocation();
-    const pageName = getVersionPage(location.pathname)?.page!
+    const uid = getVersionPage(location.pathname)?.uid!
     const versionName = getVersionPage(location.pathname)?.version!
     React.useEffect(() => {
         document.body.style.fontFamily = "Content-font, Roboto, sans-serif"
@@ -15,8 +15,8 @@ export const Document: React.SFC<Partial<{
     }, [])
     return <div style={styles.layout}>
         <div style={{ marginBottom: "32px", padding: "40px 0", borderBottom: "2px solid rgb(230, 236, 241)" }}>
-            <h1 style={styles.title}>{findPage(pageName, versionName, 'path')?.title || "我是固定的标题"}</h1>
-            {findPage(pageName, versionName, 'path')?.description && <div style={styles.desc}>{findPage(pageName, versionName, 'path')?.description}</div>}
+            <h1 style={styles.title}>{findPage(uid, versionName, 'uid')?.title || "我是固定的标题"}</h1>
+            {findPage(uid, versionName, 'uid')?.description && <div style={styles.desc}>{findPage(uid, versionName, 'uid')?.description}</div>}
         </div>
         {
             /* check first element is not heading-1 type */

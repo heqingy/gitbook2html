@@ -4,15 +4,15 @@ import RightOutlined from '@ant-design/icons/RightOutlined'
 import DownOutlined from '@ant-design/icons/DownOutlined'
 import { useHistory, useLocation } from 'react-router-dom'
 
-const getParentPath = (pages: Pages, targetPath: string): string | undefined => {
+const getParentPath = (pages: Pages, targetUid: string): string | undefined => {
     for (let i = 0; i < pages?.length; i++) {
         const page = pages[i]
-        if (page.path === targetPath) {
+        if (page.uid === targetUid) {
             return page.parentPath
         }
 
         if (!!page?.pages?.length) {
-            const parentPath = getParentPath(page.pages, targetPath)
+            const parentPath = getParentPath(page.pages, targetUid)
 
             if (parentPath) {
                 return parentPath
@@ -30,12 +30,12 @@ const getPathList = (versionName: string, pageName: string, container: string[],
     }
 }
 
-const getPageInfo = (versionName: string, pageName: string, page: VersionInfo) => {
-    const pathList: string[] = [pageName]
-    getPathList(versionName, pageName, pathList)
-    const onSelect = pathList[0] === page?.path
+const getPageInfo = (versionName: string, uid: string, page: VersionInfo) => {
+    const pathList: string[] = [uid]
+    getPathList(versionName, uid, pathList)
+    const onSelect = pathList[0] === page?.uid
     const hasChildren = !!page?.pages?.length
-    const onOpen = pathList.includes(page?.path) && hasChildren
+    const onOpen = pathList.includes(page?.uid) && hasChildren
 
     return {
         onSelect,
@@ -48,7 +48,7 @@ const formatPageRoutes = (versionName: string, pageName: string, p: VersionInfo,
     const { hasChildren } = getPageInfo(versionName, pageName, p)
 
     if (hasChildren) {
-        (p?.pages || []).forEach(page => formatPageRoutes(versionName, pageName, page, p.path))
+        (p?.pages || []).forEach(page => formatPageRoutes(versionName, pageName, page, p.uid))
     }
 
     if (!!parentUid) {
@@ -58,14 +58,14 @@ const formatPageRoutes = (versionName: string, pageName: string, p: VersionInfo,
 
 export const getVersionPage = (pathName?: string): {
     version: string;
-    page: string;
+    uid: string;
 } | undefined => {
     const path = pathName || location.pathname || ""
     const args = path?.split("/").slice(-2)
     if (args?.length === 2) {
-        const [version, page] = args
+        const [version, uid] = args
         return {
-            version, page
+            version, uid
         }
     }
     return undefined
@@ -80,7 +80,7 @@ export const Sider: React.FC = ({ children }) => {
 
     React.useEffect(() => {
         if (loading) {
-            formatPageRoutes(getVersionPage(location.pathname)?.version!, getVersionPage(location.pathname)?.page!, reversion.versions[getVersionPage()?.version!]?.page)
+            formatPageRoutes(getVersionPage(location.pathname)?.version!, getVersionPage(location.pathname)?.uid!, reversion.versions[getVersionPage()?.version!]?.page)
             setLoading(false)
         }
     }, [loading])
@@ -94,7 +94,7 @@ export const Sider: React.FC = ({ children }) => {
                             return <SiderItemRenderUI
                                 key={idx}
                                 title={v}
-                                path={`/${v}/${reversion.versions[v]?.page?.path}`}
+                                path={`/${v}/${reversion.versions[v]?.page?.uid}`}
                                 onSelected={getVersionPage(location.pathname)?.version === v}
                             />
                         })
@@ -103,7 +103,7 @@ export const Sider: React.FC = ({ children }) => {
             </GroupLayoutUI>
             {/* document index */}
             <IndentLayout>
-                <SiderItemRenderUI title={pageRoutes?.title} path={`/${pageRoutes?.path}`} />
+                <SiderItemRenderUI title={pageRoutes?.title} path={`/${pageRoutes?.uid}`} />
             </IndentLayout>
             {renderSider(pageRoutes?.pages)}
         </div>
@@ -143,9 +143,9 @@ const GroupLayoutUI: React.FC<{ title: string; style?: React.CSSProperties }> = 
 
 const SiderItem: React.FC<{ page: VersionInfo, itemStyle?: React.CSSProperties }> = ({ page, itemStyle = {} }) => {
     const location = useLocation();
-    const pageInfo = getPageInfo(getVersionPage(location.pathname)?.version!, getVersionPage(location.pathname)?.page!, page) || {}
+    const pageInfo = getPageInfo(getVersionPage(location.pathname)?.version!, getVersionPage(location.pathname)?.uid!, page) || {}
     return <div>
-        <SiderItemRenderUI title={page?.title} path={page?.path} itemStyle={itemStyle} {...pageInfo} />
+        <SiderItemRenderUI title={page?.title} path={page?.uid} itemStyle={itemStyle} {...pageInfo} />
         {
             pageInfo?.onOpen && <IndentLayout style={{ paddingTop: 0 }}>
                 <div style={{ borderLeft: "1px solid rgb(230, 236, 241)" }}>
@@ -197,6 +197,7 @@ const SiderItemRenderUI: React.FC<{
 
     return <OnHover onPress={() => {
         const p = targetPath()
+        console.log(p,'===')
         !!p && history.push(p)
     }}>
         {onHover => {

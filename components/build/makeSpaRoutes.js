@@ -23,12 +23,35 @@ const findAllVersionsWithApp = (appPath) => {
     return []
 }
 
+const getParentPath = (pages, targetPath, container) => {
+    for (let i = 0; i < pages.length; i++) {
+        const page = pages[i]
+        if (!page) {
+            container.push({
+                uid: `error_page_${targetPath}`,
+                isGroup: false
+            })
+            continue
+        }
+        if (page.path === targetPath) {
+            container.push({
+                uid: page.uid,
+                isGroup: !!page.pages && !!page.pages.length
+            })
+        }
+
+        if (!!page.pages && !!page.pages.length) {
+            getParentPath(page.pages, targetPath, container)
+        }
+    }
+}
+
 const makeAppRoot = (app, appFullPath) => {
     const appRootPath = `${appFullPath}/_appRoute.tsx`
     const versionDirPath = `${appFullPath}/versions`
     // version route
     const versionList = findAllVersionsWithApp(versionDirPath).map((v, i) => {
-        fs.statSync(`${versionDirPath}/${v}`).isDirectory() && makeVersionRoot(v, `${versionDirPath}/${v}`)
+        fs.statSync(`${versionDirPath}/${v}`).isDirectory() && makeVersionRoot(v, appFullPath)
 
         return {
             component: `Version_${i}`,
@@ -68,13 +91,32 @@ const makeAppRoot = (app, appFullPath) => {
     fs.writeFileSync(appRootPath, content)
 }
 
-const makeVersionRoot = (verison, verisonPath) => {
-    const versionRootPath = `${verisonPath}/_versionRoute.tsx`
-    const pagesList = fs.readdirSync(verisonPath).filter(p => String(p).endsWith('.tsx') && !String(p).includes("_versionRoute")).map((p, i) => {
+const makeVersionRoot = (version, appFullPath) => {
+    const versionPath = `${appFullPath}/versions/${version}`
+    const versionRootPath = `${versionPath}/_versionRoute.tsx`
+    const pagesList = fs.readdirSync(versionPath).filter(p => String(p).endsWith('.tsx') && !String(p).includes("_versionRoute")).map((p, i) => {
+        const reversionJSON = require(`${appFullPath}/revision.json`);
+        const targetPath = getTsxFileName(p);
+        const currentVersion = reversionJSON.versions[version];
+        let currentUid = targetPath
+        if (!!currentVersion && !!currentVersion.page && currentVersion.page.path === targetPath) {
+            currentUid = currentVersion.page.uid
+        } else if (!!currentVersion && !!currentVersion.page && currentVersion.page.pages) {
+            const container = []
+            getParentPath(currentVersion.page.pages, targetPath, container)
+            if (container.length > 1) {
+                const item = container.find(p => !p.isGroup)
+                currentUid = !!item ? item.uid : currentUid
+            } else if (container.length === 1) {
+                currentUid = container[0].uid
+            }
+        }
+
         return {
             component: `Page_${i}`,
             importPath: `import Page_${i} from './${getTsxFileName(p)}';`,
-            page: getTsxFileName(p)
+            pagePath: targetPath,
+            pageUid: currentUid,
         }
     })
 
@@ -85,8 +127,8 @@ const makeVersionRoot = (verison, verisonPath) => {
 
     export default withRouter(props => {
         return <Switch>
-            ${pagesList.map(p => `<Route path={\`\$\{props.match.url\}/${p.page}\`} exact component={${p.component}} />`).join('\n')}
-            <Redirect to={\`\$\{props.match.url\}/master\`\}/>
+            ${pagesList.map(p => `<Route path={\`\$\{props.match.url\}/${p.pageUid}\`} exact component={${p.component}} />`).join('\n')}
+            <Redirect to={\`\$\{props.match.url\}/${pagesList.find(p => p.pagePath === 'master').pageUid}\`\}/>
         </Switch>
     })
     `
