@@ -62,9 +62,9 @@ const renderLinkContainer = (data?: LinkData, child?: JSX.Element) => {
             textDecorationLine: showUnderLine ? "underline" : undefined
         }}
         onClick={() => {
-            const pageInfo = findPage(data?.pageID!,versionName)
+            const pageInfo = findPage(data?.pageID!, versionName)
             if (!!data?.pageID && !data?.href && !!pageInfo) {
-                !!pageInfo.path && history.push(pageInfo.path)
+                !!pageInfo.path && history.push(pageInfo.uid)
                 return;
             }
             window.open(data?.href)
