@@ -23,7 +23,7 @@ const findAllVersionsWithApp = (appPath) => {
     return []
 }
 
-const getParentPath = (pages, targetPath, container) => {
+const deepFindParent = (pages, targetPath, container) => {
     for (let i = 0; i < pages.length; i++) {
         const page = pages[i]
         if (!page) {
@@ -41,7 +41,7 @@ const getParentPath = (pages, targetPath, container) => {
         }
 
         if (!!page.pages && !!page.pages.length) {
-            getParentPath(page.pages, targetPath, container)
+            deepFindParent(page.pages, targetPath, container)
         }
     }
 }
@@ -94,6 +94,8 @@ const makeAppRoot = (app, appFullPath) => {
 const makeVersionRoot = (version, appFullPath) => {
     const versionPath = `${appFullPath}/versions/${version}`
     const versionRootPath = `${versionPath}/_versionRoute.tsx`
+    const nullPage = []
+
     const pagesList = fs.readdirSync(versionPath).filter(p => String(p).endsWith('.tsx') && !String(p).includes("_versionRoute")).map((p, i) => {
         const reversionJSON = require(`${appFullPath}/revision.json`);
         const targetPath = getTsxFileName(p);
@@ -103,10 +105,16 @@ const makeVersionRoot = (version, appFullPath) => {
             currentUid = currentVersion.page.uid
         } else if (!!currentVersion && !!currentVersion.page && currentVersion.page.pages) {
             const container = []
-            getParentPath(currentVersion.page.pages, targetPath, container)
+            deepFindParent(currentVersion.page.pages, targetPath, container)
             if (container.length > 1) {
-                const item = container.find(p => !p.isGroup)
-                currentUid = !!item ? item.uid : currentUid
+                const page = container.find(p => !p.isGroup)
+                if (!!page) {
+                    currentUid = page.uid
+                }
+                const group = container.find(p => !!p.isGroup)
+                if (!!group) {
+                    nullPage.push(group.uid)
+                }
             } else if (container.length === 1) {
                 currentUid = container[0].uid
             }
@@ -123,11 +131,14 @@ const makeVersionRoot = (version, appFullPath) => {
     const content = `
 	import * as React from 'react'
     import { Route, withRouter, Redirect, Switch } from 'react-router';
+    import { Sider } from '@parts/Sider.tsx';
+	import { Header } from '@parts/Header.tsx';
     ${pagesList.map(v => v.importPath).join('\n')}
 
     export default withRouter(props => {
         return <Switch>
             ${pagesList.map(p => `<Route path={\`\$\{props.match.url\}/${p.pageUid}\`} exact component={${p.component}} />`).join('\n')}
+            ${nullPage.map(uid => `<Route path={\`\$\{props.match.url\}/${uid}\`} exact render={()=><Header><Sider></Sider></Header>} />`).join('\n')}
             <Redirect to={\`\$\{props.match.url\}/${pagesList.find(p => p.pagePath === 'master').pageUid}\`\}/>
         </Switch>
     })
