@@ -23,7 +23,12 @@ export const Document: React.SFC<Partial<{
             (() => {
                 return React.Children.map(props.children, (child: any, idx) => {
                     if (child?.props?.type === 'heading-1' && idx === 0) {
-                        return React.cloneElement((props?.children as any)?.[0], {
+                        const child = (props?.children as any)?.[0]
+                        if (!child) { 
+                            return null;
+                        }
+
+                        return React.cloneElement(child, {
                             data: {
                                 ...child?.props?.data || {},
                                 isFirstEle: true

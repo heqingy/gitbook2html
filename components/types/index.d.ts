@@ -20,7 +20,7 @@ declare type VersionInfo = {
     uid: string;
     parentPath?: string;
     title: string;
-    kind: 'document' | 'group';
+    kind: 'document' | 'group' | 'link';
     description: string;
     path: string;
     href: string;

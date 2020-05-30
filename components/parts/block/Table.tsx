@@ -14,6 +14,9 @@ export const RenderTable: React.FC<{
             return <div style={{ margin: "24px 0 20px", fontSize: "16px" }}>
                 {
                     React.Children.map(children, (child: any, idx) => {
+                        if (!child) { 
+                            return null
+                        }
                         return React.cloneElement(child, { key: idx, data: Object.assign({}, data, { isFirst: idx === 0 }) })
                     })
                 }

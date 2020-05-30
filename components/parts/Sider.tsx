@@ -95,6 +95,8 @@ export const Sider: React.FC = ({ children }) => {
                                 key={idx}
                                 title={v}
                                 path={`/${v}/${reversion.versions[v]?.page?.uid}`}
+                                kind={reversion.versions[v]?.page?.kind}
+                                href={reversion.versions[v]?.page?.href}
                                 onSelected={getVersionPage(location.pathname)?.version === v}
                             />
                         })
@@ -103,7 +105,12 @@ export const Sider: React.FC = ({ children }) => {
             </GroupLayoutUI>
             {/* document index */}
             <IndentLayout>
-                <SiderItemRenderUI title={pageRoutes?.title} path={`/${pageRoutes?.uid}`} />
+                <SiderItemRenderUI
+                    kind={pageRoutes?.kind}
+                    href={pageRoutes?.href}
+                    title={pageRoutes?.title}
+                    path={`/${pageRoutes?.uid}`}
+                />
             </IndentLayout>
             {renderSider(pageRoutes?.pages)}
         </div>
@@ -145,7 +152,7 @@ const SiderItem: React.FC<{ page: VersionInfo, itemStyle?: React.CSSProperties }
     const location = useLocation();
     const pageInfo = getPageInfo(getVersionPage(location.pathname)?.version!, getVersionPage(location.pathname)?.uid!, page) || {}
     return <div>
-        <SiderItemRenderUI title={page?.title} path={page?.uid} itemStyle={itemStyle} {...pageInfo} />
+        <SiderItemRenderUI kind={page?.kind} href={page?.href} title={page?.title} path={page?.uid} itemStyle={itemStyle} {...pageInfo} />
         {
             pageInfo?.onOpen && <IndentLayout style={{ paddingTop: 0 }}>
                 <div style={{ borderLeft: "1px solid rgb(230, 236, 241)" }}>
@@ -159,11 +166,13 @@ const SiderItem: React.FC<{ page: VersionInfo, itemStyle?: React.CSSProperties }
 const SiderItemRenderUI: React.FC<{
     title: string;
     path: string;
+    kind: string;
+    href: string;
     itemStyle?: React.CSSProperties;
     hasChildren?: boolean;
     onOpen?: boolean;
     onSelected?: boolean;
-}> = ({ title, path = "", onSelected: _onSelected, hasChildren, onOpen, itemStyle = {} }) => {
+}> = ({ title, path = "", kind, href, onSelected: _onSelected, hasChildren, onOpen, itemStyle = {} }) => {
     const history = useHistory();
     const location = useLocation();
 
@@ -196,8 +205,10 @@ const SiderItemRenderUI: React.FC<{
 
 
     return <OnHover onPress={() => {
+        if (kind === 'link') {
+            window.open(href)
+        }
         const p = targetPath()
-        console.log(p,'===')
         !!p && history.push(p)
     }}>
         {onHover => {
