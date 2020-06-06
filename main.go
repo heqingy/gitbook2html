@@ -101,14 +101,14 @@ func formatTargetVersion(versionPath string, targetDir string) []os.FileInfo {
 func parseJSON(jsonPath string, targetPath string, version string) {
 	onlyFileName := GetOnlyName(jsonPath)
 	if WriteFile(filepath.Join(targetPath, onlyFileName+".html"), makeHTML(jsonPath, version)) {
-		fmt.Println(onlyFileName, "html创建成功")
+		fmt.Println(onlyFileName, "created")
 	} else {
-		fmt.Println(onlyFileName, "html创建失败")
+		fmt.Println(onlyFileName, "creation failed")
 	}
 	if WriteFile(filepath.Join(targetPath, onlyFileName+".tsx"), makeTSX(jsonPath)) {
-		fmt.Println(onlyFileName, "tsx创建成功")
+		fmt.Println(onlyFileName, "tsx created")
 	} else {
-		fmt.Println(onlyFileName, "tsx创建失败")
+		fmt.Println(onlyFileName, "tsx creation failed")
 	}
 
 }
