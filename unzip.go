@@ -1,4 +1,4 @@
-package zip
+package main
 
 import (
 	"archive/zip"
@@ -33,7 +33,7 @@ func Unzip(src string, dest string) ([]string, error) {
 
 		filenames = append(filenames, fpath)
 
-		if idx := strings.Index(f.Name, "__MACOSX"); idx != -1 {
+		if strings.Contains(f.Name, "__MACOSX") {
 			continue
 		}
 

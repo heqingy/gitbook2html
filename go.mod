@@ -1,5 +1,5 @@
-module gitbook
+module main
 
 go 1.13
 
-require github.com/prometheus/common v0.9.1 // indirect
+require golang.org/x/mod v0.3.0

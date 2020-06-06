@@ -2,3 +2,6 @@ node_modules/
 dist
 source
 zip
+exec
+build
+.vscode

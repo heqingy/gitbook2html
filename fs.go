@@ -1,4 +1,4 @@
-package utils
+package main
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func checkFileIsExist(filename string) bool {
+func fileExists(filename string) bool {
 	var exist = true
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		exist = false
@@ -17,12 +17,12 @@ func checkFileIsExist(filename string) bool {
 	return exist
 }
 
-func WhriteFile(filename string, content string) bool {
+func WriteFile(filename string, content string) bool {
 	var f *os.File
-	if checkFileIsExist(filename) {
+	if fileExists(filename) {
 		f, _ = os.OpenFile(filename, os.O_APPEND|os.O_TRUNC|os.O_WRONLY, os.ModeAppend)
 	} else {
-		if !checkFileIsExist(filepath.Dir(filename)) {
+		if !fileExists(filepath.Dir(filename)) {
 			os.MkdirAll(filepath.Dir(filename), os.ModePerm)
 		}
 		f, _ = os.Create(filename)
@@ -35,8 +35,9 @@ func WhriteFile(filename string, content string) bool {
 	return true
 }
 
-func GetOnlyName(fileName string) string {
-	fullFilename := fileName
+// GetOnlyName gets the basename of a path and remove the extension
+func GetOnlyName(fpath string) string {
+	fullFilename := fpath
 	filenameWithSuffix := path.Base(fullFilename)
 	fileSuffix := path.Ext(filenameWithSuffix)
 	filenameOnly := strings.TrimSuffix(filenameWithSuffix, fileSuffix)
@@ -44,14 +45,12 @@ func GetOnlyName(fileName string) string {
 }
 
 func GetFileInfo(src string) os.FileInfo {
-	if fileInfo, e := os.Stat(src); e != nil {
-		if os.IsNotExist(e) {
-			return nil
-		}
+	fileInfo, err := os.Stat(src)
+	if err != nil {
 		return nil
-	} else {
-		return fileInfo
 	}
+	return fileInfo
+
 }
 
 func CopyFile(src, dst string) bool {

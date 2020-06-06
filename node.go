@@ -1,4 +1,4 @@
-package formatter
+package main
 
 type node interface {
 	RenderHTML() string

@@ -1,4 +1,4 @@
-package h
+package main
 
 import "encoding/json"
 
@@ -16,7 +16,7 @@ func H(eleName string, child string, attr string) string {
 	return "<" + eleName + attr + ">" + child + "</" + eleName + ">"
 }
 
-func AttrString(attr [1]AttrStringStruct) string {
+func AttrString(attr []AttrStringStruct) string {
 	a := " "
 	if len(attr) > 0 {
 		for i := range attr {
@@ -26,7 +26,7 @@ func AttrString(attr [1]AttrStringStruct) string {
 	return a
 }
 
-func AttrInterface(attr [1]AttrInterfaceStruct) string {
+func AttrInterface(attr []AttrInterfaceStruct) string {
 	a := " "
 	if len(attr) > 0 {
 		for i := range attr {

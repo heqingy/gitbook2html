@@ -1,4 +1,4 @@
-package h
+package main
 
 func RenderHTMLTemplate(bundleName string, versionName string) string {
 	return `
